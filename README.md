@@ -1,37 +1,70 @@
-# claude-code-mcp-client-config
+# Claude Code MCP 配置示例
 
-#### 介绍
-claude-code-mcp-client-config
+这个项目演示如何为 Claude Code 配置 MCP (Model Context Protocol) 服务器。
 
-#### 软件架构
-软件架构说明
+## 配置文件位置
 
+Claude Code 的 MCP 配置通常位于 `$HOME/.claude.json` 文件中。
 
-#### 安装教程
+## MCP 服务器配置
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+以下是一个完整的 MCP 服务器配置示例：
 
-#### 使用说明
+```json
+{
+  "mcpServers": {
+    "webdav": {
+      "type": "stdio",
+      "command": "pnpx",
+      "args": ["webdav-mcp-server"],
+      "env": {
+        "WEBDAV_PASSWORD": "${password}",
+        "WEBDAV_USERNAME": "${username}",
+        "WEBDAV_AUTH_ENABLED": "true",
+        "WEBDAV_ROOT_URL": "${rooturl}"
+      }
+    },
+    "tavily": {
+      "type": "http",
+      "url": "https://mcp.tavily.com/mcp/?tavilyApiKey=${apikey}"
+    }
+  }
+}
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 配置说明
 
-#### 参与贡献
+### WebDAV MCP 服务器
+- **类型**: stdio (标准输入输出)
+- **命令**: 使用 `pnpx` 启动 webdav-mcp-server
+- **环境变量**:
+  - `WEBDAV_USERNAME`: WebDAV 用户名
+  - `WEBDAV_PASSWORD`: WebDAV 密码
+  - `WEBDAV_AUTH_ENABLED`: 是否启用认证
+  - `WEBDAV_ROOT_URL`: WebDAV 服务器根地址
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+### Tavily MCP 服务器
+- **类型**: http (HTTP 请求)
+- **URL**: Tavily MCP 服务的端点地址
+- **API Key**: 直接在 URL 中包含 API 密钥
 
+## 安装步骤
 
-#### 特技
+1. 确保已安装 Claude Code
+2. 创建或编辑配置文件 `$HOME/.claude.json`
+3. 复制上述配置到文件中
+4. 根据需要修改配置参数
+5. 重启 Claude Code 使配置生效
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 注意事项
+
+- 确保所有必需的环境变量都已正确设置
+- 对于生产环境，请使用安全的 API 密钥管理方式
+- WebDAV 服务器需要在指定的端口 (1900) 上运行
+
+## 相关链接
+
+- [Claude Code 官方文档](https://docs.claude.com/)
+- [MCP 协议规范](https://modelcontextprotocol.io/)
+- [WebDAV MCP Server](https://github.com/your-webdav-mcp-repo)
+- [Tavily MCP Service](https://tavily.com/)
