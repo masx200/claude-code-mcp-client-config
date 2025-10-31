@@ -1,0 +1,18 @@
+{
+  "name": "claude-code-mcp-client-config",
+  "version": "1.0.0",
+  "description": "这个项目演示如何为 Claude Code 配置 MCP (Model Context Protocol) 服务器。",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/masx200/claude-code-mcp-client-config"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@types/node": "^24.9.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "firecrawl-mcp-server": {
+      "isActive": true,
+      "name": "firecrawl-mcp-server",
+      "type": "stdio",
+      "description": "firecrawl-mcp-server",
+      "registryUrl": "https://registry.npmmirror.com",
+      "command": "npx",
+      "args": [
+        "-y",
+        "firecrawl-mcp@1.12.0"
+      ],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-4e666861b6cb40d68a7267aeb3b1be4b"
+      }
+    }
+  }
+}
