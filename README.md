@@ -35,6 +35,7 @@ Claude Code 的 MCP 配置通常位于 `$HOME/.claude.json` 文件中。
 ## 配置说明
 
 ### WebDAV MCP 服务器
+
 - **类型**: stdio (标准输入输出)
 - **命令**: 使用 `pnpx` 启动 webdav-mcp-server
 - **环境变量**:
@@ -44,6 +45,7 @@ Claude Code 的 MCP 配置通常位于 `$HOME/.claude.json` 文件中。
   - `WEBDAV_ROOT_URL`: WebDAV 服务器根地址
 
 ### Tavily MCP 服务器
+
 - **类型**: http (HTTP 请求)
 - **URL**: Tavily MCP 服务的端点地址
 - **API Key**: 直接在 URL 中包含 API 密钥
@@ -72,6 +74,7 @@ node merge-mcp-config.js '{"mcpServers": {"server1": {...}}}'
 ### 示例用法
 
 1. **从示例配置文件合并**：
+
    ```bash
    node merge-mcp-config.js example-firecrawl.json
    ```
