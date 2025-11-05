@@ -10,6 +10,9 @@ importers:
       "@types/node":
         specifier: ^24.9.2
         version: 24.9.2
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
 
 packages:
   "@types/node@24.9.2":
@@ -17,6 +20,14 @@ packages:
       {
         integrity: sha512-uWN8YqxXxqFMX2RqGOrumsKeti4LlmIMIyV0lgut4jx7KQBcBiW6vkDtIBvHnHIquwNfJhk8v2OtmO8zXWHfPA==,
       }
+
+  prettier@3.6.2:
+    resolution:
+      {
+        integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==,
+      }
+    engines: { node: ">=14" }
+    hasBin: true
 
   undici-types@7.16.0:
     resolution:
@@ -28,5 +39,7 @@ snapshots:
   "@types/node@24.9.2":
     dependencies:
       undici-types: 7.16.0
+
+  prettier@3.6.2: {}
 
   undici-types@7.16.0: {}

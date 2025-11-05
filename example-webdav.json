@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "webdav": {
+      "type": "stdio",
+      "command": "pnpx",
+      "args": ["webdav-mcp-server"],
+      "env": {
+        "WEBDAV_PASSWORD": "${password}",
+        "WEBDAV_USERNAME": "${username}",
+        "WEBDAV_AUTH_ENABLED": "true",
+        "WEBDAV_ROOT_URL": "${rooturl}"
+      }
+    }
+  }
+}
