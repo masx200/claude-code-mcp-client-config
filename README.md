@@ -52,7 +52,8 @@ Claude Code 的 MCP 配置通常位于 `$HOME/.claude.json` 文件中。
 
 ## MCP 配置合并工具
 
-项目提供了 `merge-mcp-config.js` 工具，用于将新的 MCP 服务器配置合并到现有的 Claude 配置中。
+项目提供了 `merge-mcp-config.js` 工具，用于将新的 MCP 服务器配置合并到现有的
+Claude 配置中。
 
 ### 使用方法
 

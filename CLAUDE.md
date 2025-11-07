@@ -1,10 +1,12 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## 项目概述
 
-这是一个 Claude Code MCP (Model Context Protocol) 客户端配置示例项目，用于演示如何为 Claude Code 配置各种 MCP 服务器。
+这是一个 Claude Code MCP (Model Context Protocol)
+客户端配置示例项目，用于演示如何为 Claude Code 配置各种 MCP 服务器。
 
 ## 核心功能
 
@@ -18,7 +20,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 配置合并工具
 
-`merge-mcp-config.js` 是一个命令行工具，用于合并新的 MCP 服务器配置到现有的 Claude 配置中：
+`merge-mcp-config.js` 是一个命令行工具，用于合并新的 MCP 服务器配置到现有的
+Claude 配置中：
 
 ```bash
 # 从文件合并配置

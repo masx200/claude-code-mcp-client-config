@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "GitHub": {
+      "name": "github-mcp-server",
+      "type": "stdio",
+      "description": "github-mcp-server",
+      "isActive": true,
+      "command": "F:\\迅雷下载\\github-mcp-server_Windows_x86_64\\github-mcp-server.exe",
+      "args": [
+        "stdio"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<your personal access token>"
+      },
+      "disabledAutoApproveTools": [
+        "add_comment_to_pending_review",
+        "add_issue_comment",
+        "add_sub_issue",
+        "assign_copilot_to_issue",
+        "cancel_workflow_run",
+        "create_and_submit_pull_request_review",
+        "create_branch",
+        "create_gist",
+        "create_issue",
+        "create_or_update_file",
+        "create_pending_pull_request_review",
+        "create_pull_request",
+        "create_repository",
+        "delete_file",
+        "delete_workflow_run_logs",
+        "delete_pending_pull_request_review",
+        "dismiss_notification",
+        "download_workflow_run_artifact"
+      ]
+    }
+  }
+}
