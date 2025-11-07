@@ -4,6 +4,7 @@
       "type": "stdio",
       "command": "pnpx",
       "args": ["webdav-mcp-server"],
+      "installCommand": "pnpm install -g webdav-mcp-server",
       "env": {
         "WEBDAV_PASSWORD": "${password}",
         "WEBDAV_USERNAME": "${username}",
