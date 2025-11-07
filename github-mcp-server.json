@@ -5,7 +5,7 @@
       "type": "stdio",
       "description": "github-mcp-server",
       "isActive": true,
-      "command": "F:\\迅雷下载\\github-mcp-server_Windows_x86_64\\github-mcp-server.exe",
+      "command": "github-mcp-server.exe",
       "args": [
         "stdio"
       ],
