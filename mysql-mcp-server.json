@@ -1,13 +1,10 @@
 {
   "mcpServers": {
     "MySQL": {
+      "installCommand": "uv pip install mysql-mcp-server",
       "isActive": true,
       "command": "uvx",
-      "args": [
-        "--from",
-        "mysql-mcp-server",
-        "mysql_mcp_server"
-      ],
+      "args": ["--from", "mysql-mcp-server", "mysql_mcp_server"],
       "env": {
         "MYSQL_HOST": "192.168.31.193",
         "MYSQL_PORT": "3306",
@@ -18,5 +15,4 @@
       "name": "MySQL"
     }
   }
-    
 }
