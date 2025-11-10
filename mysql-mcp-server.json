@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "MySQL": {
-      "installCommand": "uv pip install mysql-mcp-server",
+      "installCommand": "uv pip  install --system mysql-mcp-server",
       "isActive": true,
       "command": "uvx",
       "args": ["--from", "mysql-mcp-server", "mysql_mcp_server"],
