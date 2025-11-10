@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "MySQL": {
+      "isActive": true,
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mysql-mcp-server",
+        "mysql_mcp_server"
+      ],
+      "env": {
+        "MYSQL_HOST": "192.168.31.245",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "root",
+        "MYSQL_PASSWORD": "<password>",
+        "MYSQL_DATABASE": "cg_manage"
+      },
+      "name": "MySQL"
+    }
+  }
+    
+}
