@@ -2,9 +2,9 @@
   "mcpServers": {
     "mcp_server_mysql": {
       "type": "stdio",
-      "installCommand": "npm i -g @benborla29/mcp-server-mysql",
+      "installCommand": "npm i -g @fhuang/mcp-mysql-server",
       "command": "npx",
-      "args": ["-y", "@benborla29/mcp-server-mysql"],
+      "args": ["-y", "@fhuang/mcp-mysql-server"],
       "env": {
         "MYSQL_HOST": "192.168.31.193",
         "MYSQL_PORT": "3306",
@@ -27,7 +27,9 @@
 
         "ALLOW_INSERT_OPERATION": "true",
         "ALLOW_UPDATE_OPERATION": "true",
-        "ALLOW_DELETE_OPERATION": "true"
+        "ALLOW_DELETE_OPERATION": "true",
+        "MYSQL_PASSWORD": "<password>",
+        "MYSQL_DATABASE": "cg_manage"
       }
     }
   }
