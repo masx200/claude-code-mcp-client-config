@@ -7,9 +7,6 @@
 
 import fs from 'fs';
 import path from 'path';
-import { spawn } from 'child_process';
-import { promisify } from 'util';
-import os from 'os';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
