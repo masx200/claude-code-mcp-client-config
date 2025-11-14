@@ -44,8 +44,9 @@ function executeInstallCommand(command) {
 
     // 根据操作系统选择shell
     const shell = os.platform() === "win32" ? "cmd.exe" : "bash";
-    const shellArgs =
-      os.platform() === "win32" ? ["/c", command] : ["-c", command];
+    const shellArgs = os.platform() === "win32"
+      ? ["/c", command]
+      : ["-c", command];
 
     const child = spawn(shell, shellArgs, {
       stdio: "inherit",
@@ -86,7 +87,7 @@ async function installMcpServers(mcpServers, skipInstall = false) {
           .then(() => console.log(`${serverName} 安装完成`))
           .catch((error) =>
             console.warn(`${serverName} 安装失败:`, error.message)
-          )
+          ),
       );
     }
   }
