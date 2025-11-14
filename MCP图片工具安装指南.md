@@ -16,21 +16,7 @@
   - 智能目录管理
   - 支持Claude Desktop集成
 
-### 2. mcp_search_images (GitHub: yanjunz/mcp_search_images)
 
-- **描述**: 基于多个图片API的搜索工具
-- **安装要求**: Python 3.10+, 需要手动克隆
-- **API需求**: Unsplash, Pexels, Pixabay, Together AI 密钥
-- **特点**:
-  - 支持多个图片源 (Unsplash, Pexels, Pixabay)
-  - AI图标生成功能
-  - 支持Cursor IDE集成
-  - SSE (Server-Sent Events) 支持
-
-### 3. Image Downloader MCP Server
-
-- **描述**: 通用图片下载器
-- **特点**: 批量下载、格式转换、元数据提取
 
 ## 配置文件
 
@@ -84,14 +70,10 @@ npm install -g mcp-unsplash-image-downloader
 #### 安装方式B: 完整安装 (多API支持)
 
 ```bash
-# 1. 克隆仓库
-git clone https://github.com/yanjunz/mcp_search_images.git /tmp/mcp_search_images
 
 # 2. 安装Python依赖
 pip3 install fastmcp requests
 
-# 3. 创建配置文件
-cp /tmp/mcp_search_images/config.json.template config.json
 
 # 4. 编辑配置文件，填入API密钥
 ```
