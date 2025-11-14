@@ -10,6 +10,9 @@ import path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import os from 'os';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
 const execAsync = promisify(exec);
 
@@ -44,116 +47,112 @@ function readClaudeConfig(configPath) {
   }
 }
 
+// 使用 SDK 查询 HTTP 服务器
+async function queryHttpServerWithSDK(serverName, serverConfig) {
+  let client = null;
+  let transport = null;
+
+  try {
+    logInfo(`连接到 HTTP 服务器: ${serverConfig.url}`);
+
+    // 使用 MCP SDK 的 StreamableHTTPClientTransport
+    const url = new URL(serverConfig.url);
+    const headers = serverConfig.headers || {};
+
+    transport = new StreamableHTTPClientTransport(url, {
+      requestInit: {
+        headers: {
+          'Content-Type': 'application/json',
+          ...headers
+        }
+      }
+    });
+
+    client = new Client({
+      name: 'mcp-tools-list-client',
+      version: '1.0.0'
+    });
+
+    await client.connect(transport);
+
+    // 获取工具列表
+    const toolsResult = await client.listTools();
+
+    return {
+      serverName,
+      success: true,
+      tools: toolsResult.tools || [],
+      count: toolsResult.tools ? toolsResult.tools.length : 0
+    };
+
+  } catch (error) {
+    return {
+      serverName,
+      success: false,
+      error: `HTTP 服务器连接失败: ${error.message}`,
+      note: 'HTTP 服务器可能需要特定的认证或连接方式'
+    };
+  } finally {
+    // 清理连接
+    if (transport) {
+      try {
+        await transport.close();
+      } catch (e) {
+        // 忽略清理错误
+      }
+    }
+  }
+}
+
 // 查询单个服务器
 async function queryServer(serverName, serverConfig, configPath) {
   try {
     logInfo(`查询 ${serverName}...`);
 
-    let command;
-
     // 根据服务器类型使用不同的查询方式
     if (serverConfig.type === 'http' || serverConfig.type === 'sse' || serverConfig.type === 'streamable-http') {
-      // HTTP 类型服务器使用 transport 参数直接连接
-      const transportType = serverConfig.type === 'streamable-http' ? 'http' : serverConfig.type;
-      command = `npx -y @modelcontextprotocol/inspector --cli "${serverConfig.url}" --transport ${transportType} --method tools/list`;
+      // HTTP 类型服务器使用 SDK
+      return await queryHttpServerWithSDK(serverName, serverConfig);
+    } else {
+      // STDIO 类型服务器使用 Inspector CLI
+      const command = `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
 
-      // 添加认证头的环境变量（如果支持）
-      const env = {
-        ...process.env,
-        MCP_INSPECTOR_DISABLE_BROWSER: '1',
-        CI: '1'
-      };
+      const { stdout, stderr } = await execAsync(command, {
+        timeout: 30000,
+        maxBuffer: 1024 * 1024, // 1MB
+        env: {
+          ...process.env,
+          MCP_INSPECTOR_DISABLE_BROWSER: '1',
+          CI: '1'
+        }
+      });
 
-      // 如果有认证头，尝试添加到环境变量
-      if (serverConfig.headers && serverConfig.headers.Authorization) {
-        // 某些 MCP 客户端可能支持通过环境变量传递认证
-        env.MCP_AUTH_TOKEN = serverConfig.headers.Authorization.replace('Bearer ', '');
-        logWarning(`HTTP 服务器 ${serverName} 使用 Bearer token 认证`);
-      }
-
-      try {
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: 30000,
-          maxBuffer: 1024 * 1024,
-          env
-        });
-
-        if (stdout) {
-          try {
-            const result = JSON.parse(stdout);
-            return {
-              serverName,
-              success: true,
-              tools: result.tools || [],
-              count: result.tools ? result.tools.length : 0
-            };
-          } catch (parseError) {
-            return {
-              serverName,
-              success: false,
-              error: 'JSON解析失败',
-              rawOutput: stdout,
-              stderr
-            };
-          }
-        } else {
+      if (stdout) {
+        try {
+          const result = JSON.parse(stdout);
+          return {
+            serverName,
+            success: true,
+            tools: result.tools || [],
+            count: result.tools ? result.tools.length : 0
+          };
+        } catch (parseError) {
           return {
             serverName,
             success: false,
-            error: '无输出',
+            error: 'JSON解析失败',
+            rawOutput: stdout,
             stderr
           };
         }
-      } catch (httpError) {
-        // 如果 transport 方法失败，记录具体错误
+      } else {
         return {
           serverName,
           success: false,
-          error: `HTTP 服务器查询失败: ${httpError.message}`,
-          stderr: httpError.stderr,
-          note: 'HTTP 服务器在 CLI 模式下可能需要通过 Web 界面访问'
-        };
-      }
-    } else {
-      // STDIO 类型服务器使用配置文件
-      command = `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
-    }
-
-    const { stdout, stderr } = await execAsync(command, {
-      timeout: 30000,
-      maxBuffer: 1024 * 1024, // 1MB
-      env: {
-        ...process.env,
-        MCP_INSPECTOR_DISABLE_BROWSER: '1',
-        CI: '1'
-      }
-    });
-
-    if (stdout) {
-      try {
-        const result = JSON.parse(stdout);
-        return {
-          serverName,
-          success: true,
-          tools: result.tools || [],
-          count: result.tools ? result.tools.length : 0
-        };
-      } catch (parseError) {
-        return {
-          serverName,
-          success: false,
-          error: 'JSON解析失败',
-          rawOutput: stdout,
+          error: '无输出',
           stderr
         };
       }
-    } else {
-      return {
-        serverName,
-        success: false,
-        error: '无输出',
-        stderr
-      };
     }
   } catch (error) {
     return {
@@ -171,10 +170,11 @@ function generateReport(results, configPath) {
   const successfulServers = results.filter(r => r.success).length;
   const totalTools = results.reduce((sum, r) => sum + (r.count || 0), 0);
 
-  let markdown = `# Claude MCP 工具列表报告
+  let markdown = `# Claude MCP 工具列表报告 (混合版本)
 
 > 生成时间: ${new Date().toLocaleString('zh-CN')}
 > 配置文件: ${configPath}
+> 查询方式: HTTP 服务器使用 MCP SDK，STDIO 服务器使用 Inspector CLI
 
 ## 📊 统计概览
 

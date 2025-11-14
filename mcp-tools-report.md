@@ -1,13 +1,14 @@
-# Claude MCP 工具列表报告
+# Claude MCP 工具列表报告 (混合版本)
 
-> 生成时间: 2025/11/14 13:24:34
+> 生成时间: 2025/11/14 13:38:50
 > 配置文件: C:\Users\Administrator\.claude.json
+> 查询方式: HTTP 服务器使用 MCP SDK，STDIO 服务器使用 Inspector CLI
 
 ## 📊 统计概览
 
 - **总服务器数**: 7
-- **成功查询**: 6
-- **总工具数**: 61
+- **成功查询**: 7
+- **总工具数**: 87
 
 ---
 
@@ -73,6 +74,40 @@ Available methods:
 | `sub_issue_write` | Add a sub-issue to a parent issue in a GitHub repository. |
 | `update_pull_request` | Update an existing pull request in a GitHub repository. |
 | `update_pull_request_branch` | Update the branch of a pull request with the latest changes from the base branch. |
+
+### gitee
+
+**工具数量**: 26
+
+| 工具名称 | 描述 |
+|----------|------|
+| `comment_issue` | Create a comment on a repository issue |
+| `comment_pull` | Create a comment on a pull request |
+| `create_enterprise_repo` | Create a enterprise repository |
+| `create_issue` | Create an issue |
+| `create_org_repo` | Create a org repository |
+| `create_pull` | Create a pull request |
+| `create_release` | Create a release |
+| `create_user_repo` | Create a user repository |
+| `fork_repository` | Fork a repository |
+| `get_diff_files` | Get a pull request diff files |
+| `get_file_content` | Get the content of the specified file in the repository |
+| `get_pull_detail` | Get a pull request detail |
+| `get_repo_issue_detail` | Get the detail of an issue |
+| `get_user_info` | This is a tool from the gitee MCP server.
+Get information about the authenticated user |
+| `list_issue_comments` | Get all comments for a repository issue |
+| `list_pull_comments` | List all comments for a pull request |
+| `list_releases` | List repository releases |
+| `list_repo_issues` | List all issues in a repository |
+| `list_repo_pulls` | List repository pulls |
+| `list_user_notifications` | List all notifications for authorized user |
+| `list_user_repos` | List user authorized repositories |
+| `merge_pull` | Merge a pull request |
+| `search_open_source_repositories` | Search open source repositories on Gitee |
+| `search_users` | Search users on Gitee |
+| `update_issue` | Update an issue |
+| `update_pull` | Update a pull request |
 
 ### firecrawl-mcp-server
 
@@ -311,24 +346,6 @@ Generate a standardized llms.txt (and optionally llms-full.txt) file for a given
 |----------|------|
 | `downloadProjectImage` | 根据关键词搜索图片，下载到指定的项目文件夹，并返回相对路径以便引用 |
 
-## ❌ 查询失败的服务器
-
-### gitee
-
-**错误**: HTTP 服务器查询失败: Command failed: npx -y @modelcontextprotocol/inspector --cli "https://api.gitee.com/mcp" --transport http --method tools/list
-Failed to connect to MCP server: MCP error -32603: session does not support setting logging level
-
-Failed with exit code: 1
-
-
-**错误输出**:
-```
-Failed to connect to MCP server: MCP error -32603: session does not support setting logging level
-
-Failed with exit code: 1
-
-```
-
 ## 🔧 工具分类
 
 ### GitHub (40 个工具)
@@ -387,6 +404,36 @@ Available methods:
 - **`sub_issue_write`**: Add a sub-issue to a parent issue in a GitHub repository.
 - **`update_pull_request`**: Update an existing pull request in a GitHub repository.
 - **`update_pull_request_branch`**: Update the branch of a pull request with the latest changes from the base branch.
+
+### gitee (26 个工具)
+
+- **`comment_issue`**: Create a comment on a repository issue
+- **`comment_pull`**: Create a comment on a pull request
+- **`create_enterprise_repo`**: Create a enterprise repository
+- **`create_issue`**: Create an issue
+- **`create_org_repo`**: Create a org repository
+- **`create_pull`**: Create a pull request
+- **`create_release`**: Create a release
+- **`create_user_repo`**: Create a user repository
+- **`fork_repository`**: Fork a repository
+- **`get_diff_files`**: Get a pull request diff files
+- **`get_file_content`**: Get the content of the specified file in the repository
+- **`get_pull_detail`**: Get a pull request detail
+- **`get_repo_issue_detail`**: Get the detail of an issue
+- **`get_user_info`**: This is a tool from the gitee MCP server.
+Get information about the authenticated user
+- **`list_issue_comments`**: Get all comments for a repository issue
+- **`list_pull_comments`**: List all comments for a pull request
+- **`list_releases`**: List repository releases
+- **`list_repo_issues`**: List all issues in a repository
+- **`list_repo_pulls`**: List repository pulls
+- **`list_user_notifications`**: List all notifications for authorized user
+- **`list_user_repos`**: List user authorized repositories
+- **`merge_pull`**: Merge a pull request
+- **`search_open_source_repositories`**: Search open source repositories on Gitee
+- **`search_users`**: Search users on Gitee
+- **`update_issue`**: Update an issue
+- **`update_pull`**: Update a pull request
 
 ### firecrawl-mcp-server (8 个工具)
 
