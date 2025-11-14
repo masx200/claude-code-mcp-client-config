@@ -5,43 +5,51 @@
  * 使用 MCP TypeScript SDK 直接查询 MCP 服务器的工具列表
  */
 
-import fs from 'fs';
-import path from 'path';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import fs from "fs";
+import path from "path";
+import os from "os";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 
 // 颜色输出
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  red: '\x1b[31m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
-  magenta: '\x1b[35m'
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  red: "\x1b[31m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
+  magenta: "\x1b[35m",
 };
 
-function log(message, color = 'reset') {
+function log(message, color = "reset") {
   console.log(`${colors[color]}${message}${colors.reset}`);
 }
 
-function logSuccess(message) { log(`✅ ${message}`, 'green'); }
-function logError(message) { log(`❌ ${message}`, 'red'); }
-function logInfo(message) { log(`ℹ️  ${message}`, 'blue'); }
-function logWarning(message) { log(`⚠️  ${message}`, 'yellow'); }
+function logSuccess(message) {
+  log(`✅ ${message}`, "green");
+}
+function logError(message) {
+  log(`❌ ${message}`, "red");
+}
+function logInfo(message) {
+  log(`ℹ️  ${message}`, "blue");
+}
+function logWarning(message) {
+  log(`⚠️  ${message}`, "yellow");
+}
 
 // 读取配置文件
 function readClaudeConfig(configPath) {
   try {
-    const content = fs.readFileSync(configPath, 'utf8');
+    const content = fs.readFileSync(configPath, "utf8");
     return JSON.parse(content);
   } catch (error) {
     logError(`读取配置失败: ${error.message}`);
     process.exit(1);
   }
 }
-
 
 // 查询单个服务器
 async function queryServer(serverName, serverConfig, configPath) {
@@ -52,7 +60,10 @@ async function queryServer(serverName, serverConfig, configPath) {
     logInfo(`查询 ${serverName}...`);
 
     // 根据服务器类型创建不同的传输
-    if (serverConfig.type === 'http' || serverConfig.type === 'sse' || serverConfig.type === 'streamable-http') {
+    if (
+      serverConfig.type === "http" || serverConfig.type === "sse" ||
+      serverConfig.type === "streamable-http"
+    ) {
       // HTTP 类型服务器
       try {
         logInfo(`连接到 HTTP 服务器: ${serverConfig.url}`);
@@ -64,15 +75,15 @@ async function queryServer(serverName, serverConfig, configPath) {
         transport = new StreamableHTTPClientTransport(url, {
           requestInit: {
             headers: {
-              'Content-Type': 'application/json',
-              ...headers
-            }
-          }
+              "Content-Type": "application/json",
+              ...headers,
+            },
+          },
         });
 
         client = new Client({
-          name: 'mcp-tools-list-client',
-          version: '1.0.0'
+          name: "mcp-tools-list-client",
+          version: "1.0.0",
         });
 
         await client.connect(transport);
@@ -84,33 +95,31 @@ async function queryServer(serverName, serverConfig, configPath) {
           serverName,
           success: true,
           tools: toolsResult.tools || [],
-          count: toolsResult.tools ? toolsResult.tools.length : 0
+          count: toolsResult.tools ? toolsResult.tools.length : 0,
         };
-
       } catch (httpError) {
         return {
           serverName,
           success: false,
           error: `HTTP 服务器连接失败: ${httpError.message}`,
-          note: 'HTTP 服务器可能需要特定的认证或连接方式'
+          note: "HTTP 服务器可能需要特定的认证或连接方式",
         };
       }
-
     } else {
       // STDIO 类型服务器
-      const command = serverConfig.command || 'node';
+      const command = serverConfig.command || "node";
       const args = serverConfig.args || [];
       const env = { ...process.env, ...serverConfig.env };
 
       transport = new StdioClientTransport({
         command,
         args,
-        env
+        env,
       });
 
       client = new Client({
-        name: 'mcp-tools-list-client',
-        version: '1.0.0'
+        name: "mcp-tools-list-client",
+        version: "1.0.0",
       });
 
       await client.connect(transport);
@@ -122,7 +131,7 @@ async function queryServer(serverName, serverConfig, configPath) {
         serverName,
         success: true,
         tools: toolsResult.tools || [],
-        count: toolsResult.tools ? toolsResult.tools.length : 0
+        count: toolsResult.tools ? toolsResult.tools.length : 0,
       };
     }
   } catch (error) {
@@ -131,7 +140,9 @@ async function queryServer(serverName, serverConfig, configPath) {
       success: false,
       error: error.message,
       stderr: error.stderr,
-      note: serverConfig.type === 'http' ? 'HTTP 服务器可能需要特定的认证或连接方式' : undefined
+      note: serverConfig.type === "http"
+        ? "HTTP 服务器可能需要特定的认证或连接方式"
+        : undefined,
     };
   } finally {
     // 清理连接
@@ -148,12 +159,12 @@ async function queryServer(serverName, serverConfig, configPath) {
 // 生成 Markdown 报告
 function generateReport(results, configPath) {
   const totalServers = results.length;
-  const successfulServers = results.filter(r => r.success).length;
+  const successfulServers = results.filter((r) => r.success).length;
   const totalTools = results.reduce((sum, r) => sum + (r.count || 0), 0);
 
   let markdown = `# Claude MCP 工具列表报告 (SDK 版本)
 
-> 生成时间: ${new Date().toLocaleString('zh-CN')}
+> 生成时间: ${new Date().toLocaleString("zh-CN")}
 > 配置文件: ${configPath}
 > 查询方式: MCP TypeScript SDK
 
@@ -171,10 +182,10 @@ function generateReport(results, configPath) {
 
   // 按工具数量排序
   const successfulResults = results
-    .filter(r => r.success)
+    .filter((r) => r.success)
     .sort((a, b) => (b.count || 0) - (a.count || 0));
 
-  successfulResults.forEach(result => {
+  successfulResults.forEach((result) => {
     markdown += `### ${result.serverName}
 
 **工具数量**: ${result.count}
@@ -184,25 +195,37 @@ function generateReport(results, configPath) {
 `;
 
     if (result.tools && result.tools.length > 0) {
-      result.tools.forEach(tool => {
-        const name = tool.name || 'N/A';
-        const description = tool.description || '无描述';
-        // 转义 Markdown 特殊字符
-        const escapedDesc = description.replace(/[|`\\]/g, '\\$&');
-        markdown += `| \`${name}\` | ${escapedDesc} |\n`;
+      result.tools.forEach((tool) => {
+        const name = tool.name || "N/A";
+        let description = tool.description || "无描述";
+
+        // 处理多行描述，将其转换为单行并转义 Markdown 特殊字符
+        const escapedDesc = description
+          .replace(/\n+/g, " ") // 将换行符替换为空格
+          .replace(/\s+/g, " ") // 将多个空格替换为单个空格
+          .replace(/[|`\\]/g, "\\$&") // 转义 Markdown 特殊字符
+          .trim(); // 去除首尾空格
+
+        // 限制描述长度，避免表格过宽
+        const maxLength = 200000;
+        const finalDesc = escapedDesc.length > maxLength
+          ? escapedDesc.substring(0, maxLength) + "..."
+          : escapedDesc;
+
+        markdown += `| \`${name}\` | ${finalDesc} |\n`;
       });
     }
-    markdown += '\n';
+    markdown += "\n";
   });
 
   // 失败的服务器
-  const failedResults = results.filter(r => !r.success);
+  const failedResults = results.filter((r) => !r.success);
   if (failedResults.length > 0) {
     markdown += `## ❌ 查询失败的服务器
 
 `;
 
-    failedResults.forEach(result => {
+    failedResults.forEach((result) => {
       markdown += `### ${result.serverName}
 
 **错误**: ${result.error}
@@ -230,12 +253,12 @@ ${result.stderr}
 `;
 
   const allTools = [];
-  successfulResults.forEach(result => {
+  successfulResults.forEach((result) => {
     if (result.tools) {
-      result.tools.forEach(tool => {
+      result.tools.forEach((tool) => {
         allTools.push({
           ...tool,
-          server: result.serverName
+          server: result.serverName,
         });
       });
     }
@@ -243,7 +266,7 @@ ${result.stderr}
 
   // 按服务器分组显示工具
   const toolsByServer = {};
-  allTools.forEach(tool => {
+  allTools.forEach((tool) => {
     if (!toolsByServer[tool.server]) {
       toolsByServer[tool.server] = [];
     }
@@ -254,10 +277,10 @@ ${result.stderr}
     markdown += `### ${server} (${tools.length} 个工具)
 
 `;
-    tools.forEach(tool => {
+    tools.forEach((tool) => {
       markdown += `- **\`${tool.name}\`**: ${tool.description}\n`;
     });
-    markdown += '\n';
+    markdown += "\n";
   });
 
   return markdown;
@@ -265,10 +288,10 @@ ${result.stderr}
 
 // 主函数
 async function main() {
-  log('🔍 Claude MCP 工具列表查询器 (SDK 版本)', 'cyan');
-  log('=====================================', 'cyan');
+  log("🔍 Claude MCP 工具列表查询器 (SDK 版本)", "cyan");
+  log("=====================================", "cyan");
 
-  const configPath = process.argv[2] || path.join(require('os').homedir(), '.claude.json');
+  const configPath = process.argv[2] || path.join(os.homedir(), ".claude.json");
 
   if (!fs.existsSync(configPath)) {
     logError(`配置文件不存在: ${configPath}`);
@@ -280,22 +303,24 @@ async function main() {
   const config = readClaudeConfig(configPath);
 
   if (!config.mcpServers || Object.keys(config.mcpServers).length === 0) {
-    logWarning('没有找到 MCP 服务器配置');
+    logWarning("没有找到 MCP 服务器配置");
     process.exit(0);
   }
 
   const serverNames = Object.keys(config.mcpServers);
-  logInfo(`找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(', ')}`);
+  logInfo(
+    `找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(", ")}`,
+  );
 
-  log('\n🚀 开始查询...', 'cyan');
-  log('=====================================', 'cyan');
+  log("\n🚀 开始查询...", "cyan");
+  log("=====================================", "cyan");
 
   const results = [];
 
   for (let i = 0; i < serverNames.length; i++) {
     const serverName = serverNames[i];
     const serverConfig = config.mcpServers[serverName];
-    log(`[${i + 1}/${serverNames.length}] ${serverName}`, 'magenta');
+    log(`[${i + 1}/${serverNames.length}] ${serverName}`, "magenta");
 
     const result = await queryServer(serverName, serverConfig, configPath);
     results.push(result);
@@ -308,28 +333,28 @@ async function main() {
   }
 
   // 生成报告
-  log('\n📝 生成报告...', 'cyan');
+  log("\n📝 生成报告...", "cyan");
   const markdown = generateReport(results, configPath);
-  const reportPath = 'mcp-tools-report-sdk.md';
+  const reportPath = "mcp-tools-report-sdk.md";
 
-  fs.writeFileSync(reportPath, markdown, 'utf8');
+  fs.writeFileSync(reportPath, markdown, "utf8");
   logSuccess(`报告已生成: ${reportPath}`);
 
   // 汇总
-  log('\n📋 汇总', 'cyan');
-  log('=====================================', 'cyan');
-  const successCount = results.filter(r => r.success).length;
+  log("\n📋 汇总", "cyan");
+  log("=====================================", "cyan");
+  const successCount = results.filter((r) => r.success).length;
   const totalCount = results.length;
   const totalToolsCount = results.reduce((sum, r) => sum + (r.count || 0), 0);
 
   log(`成功查询: ${successCount}/${totalCount} 个服务器`);
   log(`总工具数: ${totalToolsCount}`);
-  logSuccess('查询完成！');
+  logSuccess("查询完成！");
 }
 
 // 运行
 if (import.meta.main) {
-  main().catch(error => {
+  main().catch((error) => {
     logError(`程序失败: ${error.message}`);
     console.error(error);
     process.exit(1);

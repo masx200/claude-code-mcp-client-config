@@ -15,6 +15,7 @@ code in this repository.
 项目提供了完整的 MCP 服务器配置示例和管理工具：
 
 #### stdio 类型服务器
+
 1. **Firecrawl MCP 服务器** - 网页抓取和数据提取服务
 2. **GitHub MCP 服务器** - GitHub 仓库管理和操作
 3. **Image Search Unsplash MCP 服务器** - Unsplash 图片搜索和下载
@@ -23,6 +24,7 @@ code in this repository.
 6. **WebDAV MCP 服务器** - WebDAV 文件存储服务
 
 #### http 类型服务器
+
 1. **Tavily MCP 服务器** - 网络搜索和内容提取
 2. **Gitee MCP 服务器** - Gitee 代码托管平台
 
@@ -41,8 +43,8 @@ code in this repository.
 
 ### 配置合并工具
 
-`merge-mcp-config.js` 是一个功能强大的命令行工具，用于合并新的 MCP 服务器配置到现有的
-Claude 配置中，支持自动安装和批量操作：
+`merge-mcp-config.js` 是一个功能强大的命令行工具，用于合并新的 MCP
+服务器配置到现有的 Claude 配置中，支持自动安装和批量操作：
 
 ```bash
 # 从单个文件合并配置（包含自动安装）

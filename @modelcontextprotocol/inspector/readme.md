@@ -8,10 +8,16 @@ The MCP inspector is a developer tool for testing and debugging MCP servers.
 
 The MCP Inspector consists of two main components that work together:
 
-- **MCP Inspector Client (MCPI)**: A React-based web UI that provides an interactive interface for testing and debugging MCP servers
-- **MCP Proxy (MCPP)**: A Node.js server that acts as a protocol bridge, connecting the web UI to MCP servers via various transport methods (stdio, SSE, streamable-http)
+- **MCP Inspector Client (MCPI)**: A React-based web UI that provides an
+  interactive interface for testing and debugging MCP servers
+- **MCP Proxy (MCPP)**: A Node.js server that acts as a protocol bridge,
+  connecting the web UI to MCP servers via various transport methods (stdio,
+  SSE, streamable-http)
 
-Note that the proxy is not a network proxy for intercepting traffic. Instead, it functions as both an MCP client (connecting to your MCP server) and an HTTP server (serving the web UI), enabling browser-based interaction with MCP servers that use different transport protocols.
+Note that the proxy is not a network proxy for intercepting traffic. Instead, it
+functions as both an MCP client (connecting to your MCP server) and an HTTP
+server (serving the web UI), enabling browser-based interaction with MCP servers
+that use different transport protocols.
 
 ## Running the Inspector
 
@@ -27,7 +33,8 @@ To get up and running right away with the UI, just execute the following:
 npx @modelcontextprotocol/inspector
 ```
 
-The server will start up and the UI will be accessible at `http://localhost:6274`.
+The server will start up and the UI will be accessible at
+`http://localhost:6274`.
 
 ### Docker Container
 
@@ -39,13 +46,16 @@ docker run --rm --network host -p 6274:6274 -p 6277:6277 ghcr.io/modelcontextpro
 
 ### From an MCP server repository
 
-To inspect an MCP server implementation, there's no need to clone this repo. Instead, use `npx`. For example, if your server is built at `build/index.js`:
+To inspect an MCP server implementation, there's no need to clone this repo.
+Instead, use `npx`. For example, if your server is built at `build/index.js`:
 
 ```bash
 npx @modelcontextprotocol/inspector node build/index.js
 ```
 
-You can pass both arguments and environment variables to your MCP server. Arguments are passed directly to your server, while environment variables can be set using the `-e` flag:
+You can pass both arguments and environment variables to your MCP server.
+Arguments are passed directly to your server, while environment variables can be
+set using the `-e` flag:
 
 ```bash
 # Pass arguments only
@@ -61,19 +71,30 @@ npx @modelcontextprotocol/inspector -e key=value -e key2=$VALUE2 node build/inde
 npx @modelcontextprotocol/inspector -e key=$VALUE -- node build/index.js -e server-flag
 ```
 
-The inspector runs both an MCP Inspector (MCPI) client UI (default port 6274) and an MCP Proxy (MCPP) server (default port 6277). Open the MCPI client UI in your browser to use the inspector. (These ports are derived from the T9 dialpad mapping of MCPI and MCPP respectively, as a mnemonic). You can customize the ports if needed:
+The inspector runs both an MCP Inspector (MCPI) client UI (default port 6274)
+and an MCP Proxy (MCPP) server (default port 6277). Open the MCPI client UI in
+your browser to use the inspector. (These ports are derived from the T9 dialpad
+mapping of MCPI and MCPP respectively, as a mnemonic). You can customize the
+ports if needed:
 
 ```bash
 CLIENT_PORT=8080 SERVER_PORT=9000 npx @modelcontextprotocol/inspector node build/index.js
 ```
 
-For more details on ways to use the inspector, see the [Inspector section of the MCP docs site](https://modelcontextprotocol.io/docs/tools/inspector). For help with debugging, see the [Debugging guide](https://modelcontextprotocol.io/docs/tools/debugging).
+For more details on ways to use the inspector, see the
+[Inspector section of the MCP docs site](https://modelcontextprotocol.io/docs/tools/inspector).
+For help with debugging, see the
+[Debugging guide](https://modelcontextprotocol.io/docs/tools/debugging).
 
 ### Servers File Export
 
-The MCP Inspector provides convenient buttons to export server launch configurations for use in clients such as Cursor, Claude Code, or the Inspector's CLI. The file is usually called `mcp.json`.
+The MCP Inspector provides convenient buttons to export server launch
+configurations for use in clients such as Cursor, Claude Code, or the
+Inspector's CLI. The file is usually called `mcp.json`.
 
-- **Server Entry** - Copies a single server configuration entry to your clipboard. This can be added to your `mcp.json` file inside the `mcpServers` object with your preferred server name.
+- **Server Entry** - Copies a single server configuration entry to your
+  clipboard. This can be added to your `mcp.json` file inside the `mcpServers`
+  object with your preferred server name.
 
   **STDIO transport example:**
 
@@ -108,7 +129,9 @@ The MCP Inspector provides convenient buttons to export server launch configurat
   }
   ```
 
-- **Servers File** - Copies a complete MCP configuration file structure to your clipboard, with your current server configuration added as `default-server`. This can be saved directly as `mcp.json`.
+- **Servers File** - Copies a complete MCP configuration file structure to your
+  clipboard, with your current server configuration added as `default-server`.
+  This can be saved directly as `mcp.json`.
 
   **STDIO transport example:**
 
@@ -155,23 +178,37 @@ The MCP Inspector provides convenient buttons to export server launch configurat
   }
   ```
 
-These buttons appear in the Inspector UI after you've configured your server settings, making it easy to save and reuse your configurations.
+These buttons appear in the Inspector UI after you've configured your server
+settings, making it easy to save and reuse your configurations.
 
-For SSE and Streamable HTTP transport connections, the Inspector provides similar functionality for both buttons. The "Server Entry" button copies the configuration that can be added to your existing configuration file, while the "Servers File" button creates a complete configuration file containing the URL for direct use in clients.
+For SSE and Streamable HTTP transport connections, the Inspector provides
+similar functionality for both buttons. The "Server Entry" button copies the
+configuration that can be added to your existing configuration file, while the
+"Servers File" button creates a complete configuration file containing the URL
+for direct use in clients.
 
-You can paste the Server Entry into your existing `mcp.json` file under your chosen server name, or use the complete Servers File payload to create a new configuration file.
+You can paste the Server Entry into your existing `mcp.json` file under your
+chosen server name, or use the complete Servers File payload to create a new
+configuration file.
 
 ### Authentication
 
-The inspector supports bearer token authentication for SSE connections. Enter your token in the UI when connecting to an MCP server, and it will be sent in the Authorization header. You can override the header name using the input field in the sidebar.
+The inspector supports bearer token authentication for SSE connections. Enter
+your token in the UI when connecting to an MCP server, and it will be sent in
+the Authorization header. You can override the header name using the input field
+in the sidebar.
 
 ### Security Considerations
 
-The MCP Inspector includes a proxy server that can run and communicate with local MCP processes. The proxy server should not be exposed to untrusted networks as it has permissions to spawn local processes and can connect to any specified MCP server.
+The MCP Inspector includes a proxy server that can run and communicate with
+local MCP processes. The proxy server should not be exposed to untrusted
+networks as it has permissions to spawn local processes and can connect to any
+specified MCP server.
 
 #### Authentication
 
-The MCP Inspector proxy server requires authentication by default. When starting the server, a random session token is generated and printed to the console:
+The MCP Inspector proxy server requires authentication by default. When starting
+the server, a random session token is generated and printed to the console:
 
 ```
 ðŸ”‘ Session token: 3a1c267fad21f7150b7d624c160b7f09b0b8c4f623c7107bbf13378f051538d4
@@ -180,9 +217,12 @@ The MCP Inspector proxy server requires authentication by default. When starting
    http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=3a1c267fad21f7150b7d624c160b7f09b0b8c4f623c7107bbf13378f051538d4
 ```
 
-This token must be included as a Bearer token in the Authorization header for all requests to the server. The inspector will automatically open your browser with the token pre-filled in the URL.
+This token must be included as a Bearer token in the Authorization header for
+all requests to the server. The inspector will automatically open your browser
+with the token pre-filled in the URL.
 
-**Automatic browser opening** - The inspector now automatically opens your browser with the token pre-filled in the URL when authentication is enabled.
+**Automatic browser opening** - The inspector now automatically opens your
+browser with the token pre-filled in the URL when authentication is enabled.
 
 **Alternative: Manual configuration** - If you already have the inspector open:
 
@@ -192,7 +232,8 @@ This token must be included as a Bearer token in the Authorization header for al
 
 The token will be saved in your browser's local storage for future use.
 
-If you need to disable authentication (NOT RECOMMENDED), you can set the `DANGEROUSLY_OMIT_AUTH` environment variable:
+If you need to disable authentication (NOT RECOMMENDED), you can set the
+`DANGEROUSLY_OMIT_AUTH` environment variable:
 
 ```bash
 DANGEROUSLY_OMIT_AUTH=true npm start
@@ -202,13 +243,20 @@ DANGEROUSLY_OMIT_AUTH=true npm start
 
 **ðŸš¨ WARNING ðŸš¨**
 
-Disabling authentication with `DANGEROUSLY_OMIT_AUTH` is incredibly dangerous! Disabling auth leaves your machine open to attack not just when exposed to the public internet, but also **via your web browser**. Meaning, visiting a malicious website OR viewing a malicious advertizement could allow an attacker to remotely compromise your computer. Do not disable this feature unless you truly understand the risks.
+Disabling authentication with `DANGEROUSLY_OMIT_AUTH` is incredibly dangerous!
+Disabling auth leaves your machine open to attack not just when exposed to the
+public internet, but also **via your web browser**. Meaning, visiting a
+malicious website OR viewing a malicious advertizement could allow an attacker
+to remotely compromise your computer. Do not disable this feature unless you
+truly understand the risks.
 
-Read more about the risks of this vulnerability on Oligo's blog: [Critical RCE Vulnerability in Anthropic MCP Inspector - CVE-2025-49596](https://www.oligo.security/blog/critical-rce-vulnerability-in-anthropic-mcp-inspector-cve-2025-49596)
+Read more about the risks of this vulnerability on Oligo's blog:
+[Critical RCE Vulnerability in Anthropic MCP Inspector - CVE-2025-49596](https://www.oligo.security/blog/critical-rce-vulnerability-in-anthropic-mcp-inspector-cve-2025-49596)
 
 ---
 
-You can also set the token via the `MCP_PROXY_AUTH_TOKEN` environment variable when starting the server:
+You can also set the token via the `MCP_PROXY_AUTH_TOKEN` environment variable
+when starting the server:
 
 ```bash
 MCP_PROXY_AUTH_TOKEN=$(openssl rand -hex 32) npm start
@@ -216,17 +264,27 @@ MCP_PROXY_AUTH_TOKEN=$(openssl rand -hex 32) npm start
 
 #### Local-only Binding
 
-By default, both the MCP Inspector proxy server and client bind only to `localhost` to prevent network access. This ensures they are not accessible from other devices on the network. If you need to bind to all interfaces for development purposes, you can override this with the `HOST` environment variable:
+By default, both the MCP Inspector proxy server and client bind only to
+`localhost` to prevent network access. This ensures they are not accessible from
+other devices on the network. If you need to bind to all interfaces for
+development purposes, you can override this with the `HOST` environment
+variable:
 
 ```bash
 HOST=0.0.0.0 npm start
 ```
 
-**Warning:** Only bind to all interfaces in trusted network environments, as this exposes the proxy server's ability to execute local processes and both services to network access.
+**Warning:** Only bind to all interfaces in trusted network environments, as
+this exposes the proxy server's ability to execute local processes and both
+services to network access.
 
 #### DNS Rebinding Protection
 
-To prevent DNS rebinding attacks, the MCP Inspector validates the `Origin` header on incoming requests. By default, only requests from the client origin are allowed (respects `CLIENT_PORT` if set, defaulting to port 6274). You can configure additional allowed origins by setting the `ALLOWED_ORIGINS` environment variable (comma-separated list):
+To prevent DNS rebinding attacks, the MCP Inspector validates the `Origin`
+header on incoming requests. By default, only requests from the client origin
+are allowed (respects `CLIENT_PORT` if set, defaulting to port 6274). You can
+configure additional allowed origins by setting the `ALLOWED_ORIGINS`
+environment variable (comma-separated list):
 
 ```bash
 ALLOWED_ORIGINS=http://localhost:6274,http://localhost:8000 npm start
@@ -234,7 +292,8 @@ ALLOWED_ORIGINS=http://localhost:6274,http://localhost:8000 npm start
 
 ### Configuration
 
-The MCP Inspector supports the following configuration settings. To change them, click on the `Configuration` button in the MCP Inspector UI:
+The MCP Inspector supports the following configuration settings. To change them,
+click on the `Configuration` button in the MCP Inspector UI:
 
 | Setting                                 | Description                                                                                                                                         | Default |
 | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
@@ -244,11 +303,21 @@ The MCP Inspector supports the following configuration settings. To change them,
 | `MCP_PROXY_FULL_ADDRESS`                | Set this if you are running the MCP Inspector Proxy on a non-default address. Example: http://10.1.1.22:5577                                        | ""      |
 | `MCP_AUTO_OPEN_ENABLED`                 | Enable automatic browser opening when inspector starts (works with authentication enabled). Only as environment var, not configurable in browser.   | true    |
 
-**Note on Timeouts:** The timeout settings above control when the Inspector (as an MCP client) will cancel requests. These are independent of any server-side timeouts. For example, if a server tool has a 10-minute timeout but the Inspector's timeout is set to 30 seconds, the Inspector will cancel the request after 30 seconds. Conversely, if the Inspector's timeout is 10 minutes but the server times out after 30 seconds, you'll receive the server's timeout error. For tools that require user interaction (like elicitation) or long-running operations, ensure the Inspector's timeout is set appropriately.
+**Note on Timeouts:** The timeout settings above control when the Inspector (as
+an MCP client) will cancel requests. These are independent of any server-side
+timeouts. For example, if a server tool has a 10-minute timeout but the
+Inspector's timeout is set to 30 seconds, the Inspector will cancel the request
+after 30 seconds. Conversely, if the Inspector's timeout is 10 minutes but the
+server times out after 30 seconds, you'll receive the server's timeout error.
+For tools that require user interaction (like elicitation) or long-running
+operations, ensure the Inspector's timeout is set appropriately.
 
-These settings can be adjusted in real-time through the UI and will persist across sessions.
+These settings can be adjusted in real-time through the UI and will persist
+across sessions.
 
-The inspector also supports configuration files to store settings for different MCP servers. This is useful when working with multiple servers or complex configurations:
+The inspector also supports configuration files to store settings for different
+MCP servers. This is useful when working with multiple servers or complex
+configurations:
 
 ```bash
 npx @modelcontextprotocol/inspector --config path/to/config.json --server everything
@@ -280,7 +349,8 @@ Example server configuration file:
 
 #### Transport Types in Config Files
 
-The inspector automatically detects the transport type from your config file. You can specify different transport types:
+The inspector automatically detects the transport type from your config file.
+You can specify different transport types:
 
 **STDIO (default):**
 
@@ -324,7 +394,8 @@ The inspector automatically detects the transport type from your config file. Yo
 
 #### Default Server Selection
 
-You can launch the inspector without specifying a server name if your config has:
+You can launch the inspector without specifying a server name if your config
+has:
 
 1. **A single server** - automatically selected:
 
@@ -350,9 +421,12 @@ npx @modelcontextprotocol/inspector --config mcp.json
 }
 ```
 
-> **Tip:** You can easily generate this configuration format using the **Server Entry** and **Servers File** buttons in the Inspector UI, as described in the Servers File Export section above.
+> **Tip:** You can easily generate this configuration format using the **Server
+> Entry** and **Servers File** buttons in the Inspector UI, as described in the
+> Servers File Export section above.
 
-You can also set the initial `transport` type, `serverUrl`, `serverCommand`, and `serverArgs` via query params, for example:
+You can also set the initial `transport` type, `serverUrl`, `serverCommand`, and
+`serverArgs` via query params, for example:
 
 ```
 http://localhost:6274/?transport=sse&serverUrl=http://localhost:8787/sse
@@ -366,7 +440,8 @@ You can also set initial config settings via query params, for example:
 http://localhost:6274/?MCP_SERVER_REQUEST_TIMEOUT=60000&MCP_REQUEST_TIMEOUT_RESET_ON_PROGRESS=false&MCP_PROXY_FULL_ADDRESS=http://10.1.1.22:5577
 ```
 
-Note that if both the query param and the corresponding localStorage item are set, the query param will take precedence.
+Note that if both the query param and the corresponding localStorage item are
+set, the query param will take precedence.
 
 ### From this repository
 
@@ -384,8 +459,7 @@ npm run dev:sdk "cd sdk && npm run examples:simple-server:w"
 #   npm run unlink:sdk && npm i
 ```
 
-> **Note for Windows users:**
-> On Windows, use the following command instead:
+> **Note for Windows users:** On Windows, use the following command instead:
 >
 > ```bash
 > npm run dev:windows
@@ -400,13 +474,16 @@ npm start
 
 ### CLI Mode
 
-CLI mode enables programmatic interaction with MCP servers from the command line, ideal for scripting, automation, and integration with coding assistants. This creates an efficient feedback loop for MCP server development.
+CLI mode enables programmatic interaction with MCP servers from the command
+line, ideal for scripting, automation, and integration with coding assistants.
+This creates an efficient feedback loop for MCP server development.
 
 ```bash
 npx @modelcontextprotocol/inspector --cli node build/index.js
 ```
 
-The CLI mode supports most operations across tools, resources, and prompts. A few examples:
+The CLI mode supports most operations across tools, resources, and prompts. A
+few examples:
 
 ```bash
 # Basic usage
@@ -462,13 +539,23 @@ npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --me
 
 When implementing or modifying tool input parameter handling in the Inspector:
 
-- **Omit optional fields with empty values** - When processing form inputs, omit empty strings or null values for optional parameters, UNLESS the field has an explicit default value in the schema that matches the current value
-- **Preserve explicit default values** - If a field schema contains an explicit default (e.g., `default: null`), and the current value matches that default, include it in the request. This is a meaningful value the tool expects
-- **Always include required fields** - Preserve required field values even when empty, allowing the MCP server to validate and return appropriate error messages
-- **Defer deep validation to the server** - Implement basic field presence checking in the Inspector client, but rely on the MCP server for parameter validation according to its schema
+- **Omit optional fields with empty values** - When processing form inputs, omit
+  empty strings or null values for optional parameters, UNLESS the field has an
+  explicit default value in the schema that matches the current value
+- **Preserve explicit default values** - If a field schema contains an explicit
+  default (e.g., `default: null`), and the current value matches that default,
+  include it in the request. This is a meaningful value the tool expects
+- **Always include required fields** - Preserve required field values even when
+  empty, allowing the MCP server to validate and return appropriate error
+  messages
+- **Defer deep validation to the server** - Implement basic field presence
+  checking in the Inspector client, but rely on the MCP server for parameter
+  validation according to its schema
 
-These guidelines maintain clean parameter passing and proper separation of concerns between the Inspector client and MCP servers.
+These guidelines maintain clean parameter passing and proper separation of
+concerns between the Inspector client and MCP servers.
 
 ## License
 
-This project is licensed under the MIT License鈥攕ee the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License鈥攕ee the [LICENSE](LICENSE) file
+for details.

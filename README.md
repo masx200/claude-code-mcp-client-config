@@ -2,7 +2,8 @@
 
 > 🎯 **一站式 MCP 服务器管理**: 从搜索、安装到测试的完整工作流程
 
-这个项目提供了完整的 MCP (Model Context Protocol) 服务器管理工具链，让您可以轻松地发现、安装和验证各种 MCP 服务器。
+这个项目提供了完整的 MCP (Model Context Protocol)
+服务器管理工具链，让您可以轻松地发现、安装和验证各种 MCP 服务器。
 
 ## 📋 目录
 
@@ -46,6 +47,7 @@ node mcp-tools-list-simple.js
 ```
 
 **功能示例**:
+
 - 🔍 实时网络搜索
 - 📄 网页内容提取
 - 📰 新闻检索
@@ -64,6 +66,7 @@ node mcp-tools-list-simple.js
 ```
 
 **功能示例**:
+
 - 🕷️ 网页内容抓取
 - 🗂️ 网站地图发现
 - 📋 结构化数据提取
@@ -125,16 +128,16 @@ node mcp-tools-list-simple.js > test-results.txt
 node mcp-tools-list-sdk.js
 ```
 
-| 服务器名称 | 类型 | 工具数量 | 功能描述 | 配置文件 |
-|-----------|------|----------|----------|----------|
-| **GitHub** | stdio | 40 | GitHub 仓库管理、PR、Issue 操作 | `github-mcp-server.json` |
-| **Gitee** | http | 26 | Gitee 代码托管平台操作 | `gitee-mcp-server.json` |
-| **Firecrawl** | stdio | 8 | 网页抓取和数据提取 | `firecrawl-mcp-server.json` |
-| **Tavily** | http | 4 | 网络搜索和内容提取 | `tavily-mcp-server.json` |
-| **MySQL (Python)** | stdio | 1 | MySQL 数据库操作 | `mysql-mcp-server.json` |
-| **MySQL (Node.js)** | stdio | 7 | MySQL 数据库操作 | `mcp_server_mysql.json` |
-| **Image Search** | stdio | 1 | Unsplash 图片搜索下载 | `claude_mcp_config.json` |
-| **WebDAV** | stdio | - | WebDAV 文件存储服务 | `webdav-mcp-server.json` |
+| 服务器名称          | 类型  | 工具数量 | 功能描述                        | 配置文件                    |
+| ------------------- | ----- | -------- | ------------------------------- | --------------------------- |
+| **GitHub**          | stdio | 40       | GitHub 仓库管理、PR、Issue 操作 | `github-mcp-server.json`    |
+| **Gitee**           | http  | 26       | Gitee 代码托管平台操作          | `gitee-mcp-server.json`     |
+| **Firecrawl**       | stdio | 8        | 网页抓取和数据提取              | `firecrawl-mcp-server.json` |
+| **Tavily**          | http  | 4        | 网络搜索和内容提取              | `tavily-mcp-server.json`    |
+| **MySQL (Python)**  | stdio | 1        | MySQL 数据库操作                | `mysql-mcp-server.json`     |
+| **MySQL (Node.js)** | stdio | 7        | MySQL 数据库操作                | `mcp_server_mysql.json`     |
+| **Image Search**    | stdio | 1        | Unsplash 图片搜索下载           | `claude_mcp_config.json`    |
+| **WebDAV**          | stdio | -        | WebDAV 文件存储服务             | `webdav-mcp-server.json`    |
 
 **总计**: 87 个工具来自 7 个不同的 MCP 服务器
 
@@ -145,6 +148,7 @@ node mcp-tools-list-sdk.js
 **功能**: 自动合并和安装 MCP 服务器配置
 
 **特性**:
+
 - ✅ 自动安装依赖包
 - ✅ 配置文件自动备份
 - ✅ 批量操作支持
@@ -152,6 +156,7 @@ node mcp-tools-list-sdk.js
 - ✅ 跨平台支持
 
 **使用方法**:
+
 ```bash
 node merge-mcp-config.js <config-files...> [options]
 ```
@@ -161,6 +166,7 @@ node merge-mcp-config.js <config-files...> [options]
 **功能**: 测试所有已配置的 MCP 服务器
 
 **特性**:
+
 - 🔄 **混合模式**: HTTP 服务器使用 SDK，STDIO 服务器使用 Inspector
 - 📊 生成详细 Markdown 报告
 - 🔍 显示每个服务器的工具列表
@@ -168,6 +174,7 @@ node merge-mcp-config.js <config-files...> [options]
 - 🎨 彩色输出界面
 
 **技术架构**:
+
 ```
 HTTP 服务器 (gitee, tavily)
    ↓
@@ -183,6 +190,7 @@ MCP Inspector CLI
 **功能**: 使用官方 MCP SDK 测试所有服务器
 
 **特性**:
+
 - 🏗️ 完全基于 @modelcontextprotocol/sdk
 - 🔗 原生 HTTP 和 STDIO 支持
 - 📈 性能基准测试
@@ -211,12 +219,14 @@ MCP Inspector CLI
 ### API 密钥设置
 
 **Windows**:
+
 ```cmd
 set TAVILY_API_KEY=your_api_key_here
 set FIRECRAWL_API_KEY=your_api_key_here
 ```
 
 **Linux/macOS**:
+
 ```bash
 export TAVILY_API_KEY=your_api_key_here
 export FIRECRAWL_API_KEY=your_api_key_here
@@ -236,6 +246,7 @@ export FIRECRAWL_API_KEY=your_api_key_here
 **问题**: HTTP 类型服务器无法连接
 
 **解决方案**:
+
 ```bash
 # 使用 SDK 版本测试
 node mcp-tools-list-sdk.js
@@ -252,6 +263,7 @@ curl -I https://api.gitee.com/mcp
 **问题**: stdio 类型服务器无响应
 
 **解决方案**:
+
 ```bash
 # 检查服务器是否已安装
 npx -y @modelcontextprotocol/inspector --cli --config ~/.claude.json --server server-name --method tools/list
@@ -265,6 +277,7 @@ node merge-mcp-config.js server-config.json
 **问题**: JSON 格式或配置错误
 
 **解决方案**:
+
 ```bash
 # 验证 JSON 格式
 cat ~/.claude.json | jq .
@@ -301,10 +314,10 @@ node merge-mcp-config.js config.json --dry-run
 
 ### 性能对比
 
-| 服务器类型 | 连接方式 | 响应时间 | 稳定性 |
-|-----------|----------|----------|--------|
-| HTTP | SDK | ~1-2秒 | ⭐⭐⭐⭐⭐ |
-| STDIO | Inspector | ~3-5秒 | ⭐⭐⭐⭐ |
+| 服务器类型 | 连接方式  | 响应时间 | 稳定性     |
+| ---------- | --------- | -------- | ---------- |
+| HTTP       | SDK       | ~1-2秒   | ⭐⭐⭐⭐⭐ |
+| STDIO      | Inspector | ~3-5秒   | ⭐⭐⭐⭐   |
 
 ## 🤝 贡献指南
 
@@ -337,4 +350,5 @@ npm run format
 
 > 💡 **提示**: 建议定期更新 MCP 服务器以获得最新功能和安全修复。
 
-> 🚀 **开始使用**: 运行 `node mcp-tools-list-simple.js` 查看您当前已安装的 MCP 服务器和工具！
+> 🚀 **开始使用**: 运行 `node mcp-tools-list-simple.js` 查看您当前已安装的 MCP
+> 服务器和工具！
