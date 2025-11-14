@@ -4,13 +4,10 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import { spawn } from "child_process";
-import { fileURLToPath } from "url";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
 // 获取当前文件的目录
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Claude配置文件路径
 const CLAUDE_CONFIG_PATH = path.join(os.homedir(), ".claude.json");
@@ -47,9 +44,8 @@ function executeInstallCommand(command) {
 
     // 根据操作系统选择shell
     const shell = os.platform() === "win32" ? "cmd.exe" : "bash";
-    const shellArgs = os.platform() === "win32"
-      ? ["/c", command]
-      : ["-c", command];
+    const shellArgs =
+      os.platform() === "win32" ? ["/c", command] : ["-c", command];
 
     const child = spawn(shell, shellArgs, {
       stdio: "inherit",
@@ -90,7 +86,7 @@ async function installMcpServers(mcpServers, skipInstall = false) {
           .then(() => console.log(`${serverName} 安装完成`))
           .catch((error) =>
             console.warn(`${serverName} 安装失败:`, error.message)
-          ),
+          )
       );
     }
   }
@@ -250,6 +246,7 @@ async function main() {
     console.log(`  - ${serverName}`);
   });
 }
-
-// 运行主函数
-main();
+if (import.meta.main) {
+  // 运行主函数
+  main();
+}
