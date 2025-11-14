@@ -10,7 +10,7 @@
       "installCommand": "npm install -g firecrawl-mcp@latest",
       "args": ["-y", "firecrawl-mcp@1.12.0"],
       "env": {
-        "FIRECRAWL_API_KEY": "fc-4e666861b6cb40d68a7267aeb3b1be4b"
+        "FIRECRAWL_API_KEY": "<firecrawl-api-key>"
       }
     }
   }
