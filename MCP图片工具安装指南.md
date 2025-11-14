@@ -16,8 +16,6 @@
   - 智能目录管理
   - 支持Claude Desktop集成
 
-
-
 ## 配置文件
 
 已生成配置文件: `claude_mcp_config.json`
@@ -70,7 +68,6 @@ npm install -g mcp-unsplash-image-downloader
 #### 安装方式B: 完整安装 (多API支持)
 
 ```bash
-
 # 2. 安装Python依赖
 pip3 install fastmcp requests
 
