@@ -3,7 +3,8 @@
     "image-search-unsplash": {
       "command": "npx",
       "args": ["-y", "mcp-unsplash-image-downloader"],
-      "env": { "UNSPLASH_ACCESS_KEY": "your_unsplash_api_key_here" }
+      "env": { "UNSPLASH_ACCESS_KEY": "your_unsplash_api_key_here" },
+      "installCommand": "npm install -g mcp-unsplash-image-downloader"
     }
   }
 }
