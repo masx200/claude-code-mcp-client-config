@@ -437,4 +437,38 @@ npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com
 npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --transport http --method tools/list
 
 # Connect to a remote MCP server (with custom headers)
-npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --transport http --method tools/li
+npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --transport http --method tools/list --header "X-API-Key: your-api-key"
+
+# Call a tool on a remote server
+npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --method tools/call --tool-name remotetool --tool-arg param=value
+
+# List resources from a remote server
+npx @modelcontextprotocol/inspector --cli https://my-mcp-server.example.com --method resources/list
+```
+
+### UI Mode vs CLI Mode: When to Use Each
+
+| Use Case                 | UI Mode                                                                   | CLI Mode                                                                                                                                             |
+| ------------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Server Development**   | Visual interface for interactive testing and debugging during development | Scriptable commands for quick testing and continuous integration; creates feedback loops with AI coding assistants like Cursor for rapid development |
+| **Resource Exploration** | Interactive browser with hierarchical navigation and JSON visualization   | Programmatic listing and reading for automation and scripting                                                                                        |
+| **Tool Testing**         | Form-based parameter input with real-time response visualization          | Command-line tool execution with JSON output for scripting                                                                                           |
+| **Prompt Engineering**   | Interactive sampling with streaming responses and visual comparison       | Batch processing of prompts with machine-readable output                                                                                             |
+| **Debugging**            | Request history, visualized errors, and real-time notifications           | Direct JSON output for log analysis and integration with other tools                                                                                 |
+| **Automation**           | N/A                                                                       | Ideal for CI/CD pipelines, batch processing, and integration with coding assistants                                                                  |
+| **Learning MCP**         | Rich visual interface helps new users understand server capabilities      | Simplified commands for focused learning of specific endpoints                                                                                       |
+
+## Tool Input Validation Guidelines
+
+When implementing or modifying tool input parameter handling in the Inspector:
+
+- **Omit optional fields with empty values** - When processing form inputs, omit empty strings or null values for optional parameters, UNLESS the field has an explicit default value in the schema that matches the current value
+- **Preserve explicit default values** - If a field schema contains an explicit default (e.g., `default: null`), and the current value matches that default, include it in the request. This is a meaningful value the tool expects
+- **Always include required fields** - Preserve required field values even when empty, allowing the MCP server to validate and return appropriate error messages
+- **Defer deep validation to the server** - Implement basic field presence checking in the Inspector client, but rely on the MCP server for parameter validation according to its schema
+
+These guidelines maintain clean parameter passing and proper separation of concerns between the Inspector client and MCP servers.
+
+## License
+
+This project is licensed under the MIT License鈥攕ee the [LICENSE](LICENSE) file for details.
