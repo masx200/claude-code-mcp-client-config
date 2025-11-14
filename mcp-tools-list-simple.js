@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import os from 'os';
 
 const execAsync = promisify(exec);
 
@@ -44,11 +45,79 @@ function readClaudeConfig(configPath) {
 }
 
 // 查询单个服务器
-async function queryServer(serverName, configPath) {
+async function queryServer(serverName, serverConfig, configPath) {
   try {
     logInfo(`查询 ${serverName}...`);
 
-    const command = `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
+    let command;
+
+    // 根据服务器类型使用不同的查询方式
+    if (serverConfig.type === 'http' || serverConfig.type === 'sse' || serverConfig.type === 'streamable-http') {
+      // HTTP 类型服务器使用 transport 参数直接连接
+      const transportType = serverConfig.type === 'streamable-http' ? 'http' : serverConfig.type;
+      command = `npx -y @modelcontextprotocol/inspector --cli "${serverConfig.url}" --transport ${transportType} --method tools/list`;
+
+      // 添加认证头的环境变量（如果支持）
+      const env = {
+        ...process.env,
+        MCP_INSPECTOR_DISABLE_BROWSER: '1',
+        CI: '1'
+      };
+
+      // 如果有认证头，尝试添加到环境变量
+      if (serverConfig.headers && serverConfig.headers.Authorization) {
+        // 某些 MCP 客户端可能支持通过环境变量传递认证
+        env.MCP_AUTH_TOKEN = serverConfig.headers.Authorization.replace('Bearer ', '');
+        logWarning(`HTTP 服务器 ${serverName} 使用 Bearer token 认证`);
+      }
+
+      try {
+        const { stdout, stderr } = await execAsync(command, {
+          timeout: 30000,
+          maxBuffer: 1024 * 1024,
+          env
+        });
+
+        if (stdout) {
+          try {
+            const result = JSON.parse(stdout);
+            return {
+              serverName,
+              success: true,
+              tools: result.tools || [],
+              count: result.tools ? result.tools.length : 0
+            };
+          } catch (parseError) {
+            return {
+              serverName,
+              success: false,
+              error: 'JSON解析失败',
+              rawOutput: stdout,
+              stderr
+            };
+          }
+        } else {
+          return {
+            serverName,
+            success: false,
+            error: '无输出',
+            stderr
+          };
+        }
+      } catch (httpError) {
+        // 如果 transport 方法失败，记录具体错误
+        return {
+          serverName,
+          success: false,
+          error: `HTTP 服务器查询失败: ${httpError.message}`,
+          stderr: httpError.stderr,
+          note: 'HTTP 服务器在 CLI 模式下可能需要通过 Web 界面访问'
+        };
+      }
+    } else {
+      // STDIO 类型服务器使用配置文件
+      command = `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
+    }
 
     const { stdout, stderr } = await execAsync(command, {
       timeout: 30000,
@@ -239,9 +308,10 @@ async function main() {
 
   for (let i = 0; i < serverNames.length; i++) {
     const serverName = serverNames[i];
+    const serverConfig = config.mcpServers[serverName];
     log(`[${i + 1}/${serverNames.length}] ${serverName}`, 'magenta');
 
-    const result = await queryServer(serverName, configPath);
+    const result = await queryServer(serverName, serverConfig, configPath);
     results.push(result);
 
     if (result.success) {

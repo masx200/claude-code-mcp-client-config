@@ -1,13 +1,13 @@
 # Claude MCP 工具列表报告
 
-> 生成时间: 2025/11/14 13:11:43
+> 生成时间: 2025/11/14 13:24:34
 > 配置文件: C:\Users\Administrator\.claude.json
 
 ## 📊 统计概览
 
 - **总服务器数**: 7
-- **成功查询**: 5
-- **总工具数**: 57
+- **成功查询**: 6
+- **总工具数**: 61
 
 ---
 
@@ -284,6 +284,17 @@ Generate a standardized llms.txt (and optionally llms-full.txt) file for a given
 | `show_statement` | Execute a SHOW statement (e.g., SHOW STATUS, SHOW VARIABLES) |
 | `explain` | Analyze SQL query performance using EXPLAIN |
 
+### tavily
+
+**工具数量**: 4
+
+| 工具名称 | 描述 |
+|----------|------|
+| `tavily_search` | Search the web for real-time information about any topic. Use this tool when you need up-to-date information that might not be available in your training data, or when you need to verify current facts. The search results will include relevant snippets and URLs from web pages. This is particularly useful for questions about current events, technology updates, or any topic that requires recent information. |
+| `tavily_extract` | Extract and process content from specific web pages. Use this tool when you have URLs and need to get the full text content from those pages. Returns clean, structured content in markdown or text format. Useful for reading articles, documentation, or any web page content that you need to analyze or reference. |
+| `tavily_crawl` | Crawl multiple pages from a website starting from a base URL. Use this tool when you need to gather information from multiple related pages across a website or explore a site's structure. It follows internal links and extracts content from multiple pages, but truncates content to 500 characters per page. For full content extraction, use tavily_map to discover URLs first, then tavily_extract to get complete content from specific pages. Useful for comprehensive research on documentation sites, blogs, or when you need to understand the full scope of information available on a website. |
+| `tavily_map` | Map and discover the structure of a website by finding all its URLs and pages. Use this tool when you need to understand a website's organization, find specific pages, or get an overview of all available content without extracting the actual text. Returns a structured list of URLs and their relationships. Useful for site exploration, finding documentation pages, or understanding how a website is organized. |
+
 ### MySQL
 
 **工具数量**: 1
@@ -304,31 +315,15 @@ Generate a standardized llms.txt (and optionally llms-full.txt) file for a given
 
 ### gitee
 
-**错误**: Command failed: npx -y @modelcontextprotocol/inspector --cli --config "C:\Users\Administrator\.claude.json" --server "gitee" --method tools/list
-Command is required.
+**错误**: HTTP 服务器查询失败: Command failed: npx -y @modelcontextprotocol/inspector --cli "https://api.gitee.com/mcp" --transport http --method tools/list
+Failed to connect to MCP server: MCP error -32603: session does not support setting logging level
 
 Failed with exit code: 1
 
 
 **错误输出**:
 ```
-Command is required.
-
-Failed with exit code: 1
-
-```
-
-### tavily
-
-**错误**: Command failed: npx -y @modelcontextprotocol/inspector --cli --config "C:\Users\Administrator\.claude.json" --server "tavily" --method tools/list
-Command is required.
-
-Failed with exit code: 1
-
-
-**错误输出**:
-```
-Command is required.
+Failed to connect to MCP server: MCP error -32603: session does not support setting logging level
 
 Failed with exit code: 1
 
@@ -594,6 +589,13 @@ Generate a standardized llms.txt (and optionally llms-full.txt) file for a given
 - **`describe_table`**: Get table structure
 - **`show_statement`**: Execute a SHOW statement (e.g., SHOW STATUS, SHOW VARIABLES)
 - **`explain`**: Analyze SQL query performance using EXPLAIN
+
+### tavily (4 个工具)
+
+- **`tavily_search`**: Search the web for real-time information about any topic. Use this tool when you need up-to-date information that might not be available in your training data, or when you need to verify current facts. The search results will include relevant snippets and URLs from web pages. This is particularly useful for questions about current events, technology updates, or any topic that requires recent information.
+- **`tavily_extract`**: Extract and process content from specific web pages. Use this tool when you have URLs and need to get the full text content from those pages. Returns clean, structured content in markdown or text format. Useful for reading articles, documentation, or any web page content that you need to analyze or reference.
+- **`tavily_crawl`**: Crawl multiple pages from a website starting from a base URL. Use this tool when you need to gather information from multiple related pages across a website or explore a site's structure. It follows internal links and extracts content from multiple pages, but truncates content to 500 characters per page. For full content extraction, use tavily_map to discover URLs first, then tavily_extract to get complete content from specific pages. Useful for comprehensive research on documentation sites, blogs, or when you need to understand the full scope of information available on a website.
+- **`tavily_map`**: Map and discover the structure of a website by finding all its URLs and pages. Use this tool when you need to understand a website's organization, find specific pages, or get an overview of all available content without extracting the actual text. Returns a structured list of URLs and their relationships. Useful for site exploration, finding documentation pages, or understanding how a website is organized.
 
 ### MySQL (1 个工具)
 
