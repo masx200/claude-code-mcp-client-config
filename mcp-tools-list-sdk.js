@@ -61,7 +61,8 @@ async function queryServer(serverName, serverConfig, configPath) {
 
     // 根据服务器类型创建不同的传输
     if (
-      serverConfig.type === "http" || serverConfig.type === "sse" ||
+      serverConfig.type === "http" ||
+      serverConfig.type === "sse" ||
       serverConfig.type === "streamable-http"
     ) {
       // HTTP 类型服务器
@@ -80,7 +81,10 @@ async function queryServer(serverName, serverConfig, configPath) {
             },
           },
         });
-
+        transport.onerror = (error) => {
+          console.error("Transport error:", error.message);
+          // process.exit(error instanceof Error && error.code === 'EPIPE' ? 0 : 1);
+        };
         client = new Client({
           name: "mcp-tools-list-client",
           version: "1.0.0",
@@ -116,7 +120,10 @@ async function queryServer(serverName, serverConfig, configPath) {
         args,
         env,
       });
-
+      transport.onerror = (error) => {
+        console.error("Transport error:", error.message);
+        // process.exit(error instanceof Error && error.code === 'EPIPE' ? 0 : 1);
+      };
       client = new Client({
         name: "mcp-tools-list-client",
         version: "1.0.0",
@@ -140,9 +147,10 @@ async function queryServer(serverName, serverConfig, configPath) {
       success: false,
       error: error.message,
       stderr: error.stderr,
-      note: serverConfig.type === "http"
-        ? "HTTP 服务器可能需要特定的认证或连接方式"
-        : undefined,
+      note:
+        serverConfig.type === "http"
+          ? "HTTP 服务器可能需要特定的认证或连接方式"
+          : undefined,
     };
   } finally {
     // 清理连接
@@ -208,9 +216,10 @@ function generateReport(results, configPath) {
 
         // 限制描述长度，避免表格过宽
         const maxLength = 200000;
-        const finalDesc = escapedDesc.length > maxLength
-          ? escapedDesc.substring(0, maxLength) + "..."
-          : escapedDesc;
+        const finalDesc =
+          escapedDesc.length > maxLength
+            ? escapedDesc.substring(0, maxLength) + "..."
+            : escapedDesc;
 
         markdown += `| \`${name}\` | ${finalDesc} |\n`;
       });
@@ -309,7 +318,7 @@ async function main() {
 
   const serverNames = Object.keys(config.mcpServers);
   logInfo(
-    `找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(", ")}`,
+    `找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(", ")}`
   );
 
   log("\n🚀 开始查询...", "cyan");
@@ -350,13 +359,24 @@ async function main() {
   log(`成功查询: ${successCount}/${totalCount} 个服务器`);
   log(`总工具数: ${totalToolsCount}`);
   logSuccess("查询完成！");
+  process.exit(0);
 }
 
 // 运行
 if (import.meta.main) {
-  main().catch((error) => {
-    logError(`程序失败: ${error.message}`);
-    console.error(error);
-    process.exit(1);
+  process.on("unhandledRejection", (error) => {
+    console.error("unhandledRejection", error);
   });
+  process.on("uncaughtException", (error) => {
+    console.error("uncaughtException", error);
+  });
+  main()
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((error) => {
+      logError(`程序失败: ${error.message}`);
+      console.error(error);
+      process.exit(1);
+    });
 }

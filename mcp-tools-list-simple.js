@@ -117,7 +117,8 @@ async function queryServer(serverName, serverConfig, configPath) {
 
     // 根据服务器类型使用不同的查询方式
     if (
-      serverConfig.type === "http" || serverConfig.type === "sse" ||
+      serverConfig.type === "http" ||
+      serverConfig.type === "sse" ||
       serverConfig.type === "streamable-http"
     ) {
       // HTTP 类型服务器使用 SDK
@@ -363,13 +364,24 @@ async function main() {
   log(`成功查询: ${successCount}/${totalCount} 个服务器`);
   log(`总工具数: ${totalToolsCount}`);
   logSuccess("查询完成！");
+  process.exit(0);
 }
 
 // 运行
 if (import.meta.main) {
-  main().catch((error) => {
-    logError(`程序失败: ${error.message}`);
-    console.error(error);
-    process.exit(1);
+  process.on("unhandledRejection", (error) => {
+    console.error("unhandledRejection", error);
   });
+  process.on("uncaughtException", (error) => {
+    console.error("uncaughtException", error);
+  });
+  main()
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((error) => {
+      logError(`程序失败: ${error.message}`);
+      console.error(error);
+      process.exit(1);
+    });
 }
