@@ -1,6 +1,6 @@
 # Claude MCP 工具列表报告 (SDK 版本)
 
-> 生成时间: 2025/11/18 11:46:46
+> 生成时间: 2025/11/18 11:58:35
 > 配置文件: C:\Users\Administrator\.claude.json
 > 查询方式: MCP TypeScript SDK
 

@@ -51,6 +51,49 @@ function readClaudeConfig(configPath) {
   }
 }
 
+// 客户端管理器 - 用于跟踪所有活跃的连接
+class ClientManager {
+  constructor() {
+    this.clients = new Set();
+    this.transports = new Set();
+  }
+
+  addClient(client, transport) {
+    this.clients.add(client);
+    this.transports.add(transport);
+  }
+
+  async closeAll() {
+    logInfo("正在关闭所有 MCP 客户端连接...");
+    
+    const closePromises = [];
+    
+    // 关闭所有传输
+    for (const transport of this.transports) {
+      closePromises.push(
+        transport.close().catch((e) => {
+          // 忽略关闭错误
+        })
+      );
+    }
+    
+    // 等待所有传输关闭
+    try {
+      await Promise.all(closePromises);
+      logSuccess("所有 MCP 客户端连接已优雅关闭");
+    } catch (error) {
+      logWarning(`关闭连接时出现警告: ${error.message}`);
+    }
+    
+    // 清空集合
+    this.clients.clear();
+    this.transports.clear();
+  }
+}
+
+// 全局客户端管理器
+const clientManager = new ClientManager();
+
 // 查询单个服务器
 async function queryServer(serverName, serverConfig, configPath) {
   let client = null;
@@ -83,7 +126,6 @@ async function queryServer(serverName, serverConfig, configPath) {
         });
         transport.onerror = (error) => {
           console.error("Transport error:", error.message);
-          // process.exit(error instanceof Error && error.code === 'EPIPE' ? 0 : 1);
         };
         client = new Client({
           name: "mcp-tools-list-client",
@@ -91,6 +133,9 @@ async function queryServer(serverName, serverConfig, configPath) {
         });
 
         await client.connect(transport);
+        
+        // 注册到管理器
+        clientManager.addClient(client, transport);
 
         // 获取工具列表
         const toolsResult = await client.listTools();
@@ -122,7 +167,6 @@ async function queryServer(serverName, serverConfig, configPath) {
       });
       transport.onerror = (error) => {
         console.error("Transport error:", error.message);
-        // process.exit(error instanceof Error && error.code === 'EPIPE' ? 0 : 1);
       };
       client = new Client({
         name: "mcp-tools-list-client",
@@ -130,6 +174,9 @@ async function queryServer(serverName, serverConfig, configPath) {
       });
 
       await client.connect(transport);
+      
+      // 注册到管理器
+      clientManager.addClient(client, transport);
 
       // 获取工具列表
       const toolsResult = await client.listTools();
@@ -153,8 +200,9 @@ async function queryServer(serverName, serverConfig, configPath) {
           : undefined,
     };
   } finally {
-    // 清理连接
-    if (transport) {
+    // 不在这里立即清理，由管理器统一处理
+    // 但是对于失败的情况，仍需要清理当前连接
+    if (transport && !client) {
       try {
         await transport.close();
       } catch (e) {
@@ -326,40 +374,60 @@ async function main() {
 
   const results = [];
 
-  for (let i = 0; i < serverNames.length; i++) {
-    const serverName = serverNames[i];
-    const serverConfig = config.mcpServers[serverName];
-    log(`[${i + 1}/${serverNames.length}] ${serverName}`, "magenta");
+  try {
+    for (let i = 0; i < serverNames.length; i++) {
+      const serverName = serverNames[i];
+      const serverConfig = config.mcpServers[serverName];
+      log(`[${i + 1}/${serverNames.length}] ${serverName}`, "magenta");
 
-    const result = await queryServer(serverName, serverConfig, configPath);
-    results.push(result);
+      const result = await queryServer(serverName, serverConfig, configPath);
+      results.push(result);
 
-    if (result.success) {
-      logSuccess(`${serverName}: ${result.count} 个工具`);
-    } else {
-      logError(`${serverName}: ${result.error}`);
+      if (result.success) {
+        logSuccess(`${serverName}: ${result.count} 个工具`);
+      } else {
+        logError(`${serverName}: ${result.error}`);
+      }
     }
+
+    // 生成报告
+    log("\n📝 生成报告...", "cyan");
+    const markdown = generateReport(results, configPath);
+    const reportPath = "mcp-tools-report-sdk.md";
+
+    fs.writeFileSync(reportPath, markdown, "utf8");
+    logSuccess(`报告已生成: ${reportPath}`);
+
+    // 汇总
+    log("\n📋 汇总", "cyan");
+    log("=====================================", "cyan");
+    const successCount = results.filter((r) => r.success).length;
+    const totalCount = results.length;
+    const totalToolsCount = results.reduce((sum, r) => sum + (r.count || 0), 0);
+
+    log(`成功查询: ${successCount}/${totalCount} 个服务器`);
+    log(`总工具数: ${totalToolsCount}`);
+    logSuccess("查询完成！");
+  } catch (error) {
+    logError(`程序执行过程中出错: ${error.message}`);
+    throw error;
+  } finally {
+    // 优雅关闭所有连接
+    await clientManager.closeAll();
   }
+}
 
-  // 生成报告
-  log("\n📝 生成报告...", "cyan");
-  const markdown = generateReport(results, configPath);
-  const reportPath = "mcp-tools-report-sdk.md";
-
-  fs.writeFileSync(reportPath, markdown, "utf8");
-  logSuccess(`报告已生成: ${reportPath}`);
-
-  // 汇总
-  log("\n📋 汇总", "cyan");
-  log("=====================================", "cyan");
-  const successCount = results.filter((r) => r.success).length;
-  const totalCount = results.length;
-  const totalToolsCount = results.reduce((sum, r) => sum + (r.count || 0), 0);
-
-  log(`成功查询: ${successCount}/${totalCount} 个服务器`);
-  log(`总工具数: ${totalToolsCount}`);
-  logSuccess("查询完成！");
-  process.exit(0);
+// 优雅退出处理函数
+async function gracefulExit(signal) {
+  logInfo(`收到 ${signal} 信号，开始优雅退出...`);
+  try {
+    await clientManager.closeAll();
+    logSuccess("优雅退出完成");
+    process.exit(0);
+  } catch (error) {
+    logError(`优雅退出失败: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 // 运行
@@ -370,6 +438,20 @@ if (import.meta.main) {
   process.on("uncaughtException", (error) => {
     console.error("uncaughtException", error);
   });
+  
+  // 监听退出信号
+  process.on("SIGINT", () => gracefulExit("SIGINT"));
+  process.on("SIGTERM", () => gracefulExit("SIGTERM"));
+  
+  // 监听进程退出事件
+  process.on("exit", (code) => {
+    if (code === 0) {
+      logSuccess("程序正常退出");
+    } else {
+      logError(`程序异常退出，代码: ${code}`);
+    }
+  });
+  
   main()
     .then(() => {
       process.exit(0);
@@ -377,6 +459,9 @@ if (import.meta.main) {
     .catch((error) => {
       logError(`程序失败: ${error.message}`);
       console.error(error);
-      process.exit(1);
+      // 尝试优雅关闭
+      clientManager.closeAll().finally(() => {
+        process.exit(1);
+      });
     });
 }
