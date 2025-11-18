@@ -2,7 +2,7 @@
   "mcpServers": {
     "MongoDB": {
       "installCommand": "npm i -g mongodb-mcp-server@latest",
-
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mongodb-mcp-server@latest"],
       "env": {
