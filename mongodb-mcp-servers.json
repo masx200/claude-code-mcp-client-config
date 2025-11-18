@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "MongoDB": {
+      "installCommand": "npm i -g mongodb-mcp-server@latest",
+
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server@latest"],
+      "env": {
+        "MDB_MCP_READ_ONLY": false,
+        "MDB_MCP_CONNECTION_STRING": "mongodb://192.168.31.180:27017/water"
+      }
+    }
+  }
+}
