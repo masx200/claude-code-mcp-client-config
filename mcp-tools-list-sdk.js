@@ -70,39 +70,42 @@ class ClientManager {
 
   async closeAll() {
     // 如果没有连接需要关闭，直接返回
-    if (this.clients.size === 0 && this.transports.size === 0 && this.stdioProcesses.size === 0) {
+    if (
+      this.clients.size === 0 && this.transports.size === 0 &&
+      this.stdioProcesses.size === 0
+    ) {
       return;
     }
-    
+
     logInfo("正在关闭所有 MCP 客户端连接...");
-    
+
     const closePromises = [];
-    
+
     // 先关闭所有传输
     for (const transport of this.transports) {
       closePromises.push(
         transport.close().catch((e) => {
           // 忽略关闭错误
-        })
+        }),
       );
     }
-    
+
     // 等待传输关闭
     try {
       await Promise.all(closePromises);
     } catch (error) {
       // 忽略关闭错误
     }
-    
+
     // 强制终止所有STDIO进程
     for (const proc of this.stdioProcesses) {
       try {
         if (proc && !proc.killed) {
-          proc.kill('SIGTERM');
+          proc.kill("SIGTERM");
           // 给进程一些时间来优雅关闭
           setTimeout(() => {
             if (!proc.killed) {
-              proc.kill('SIGKILL');
+              proc.kill("SIGKILL");
             }
           }, 1000);
         }
@@ -110,12 +113,12 @@ class ClientManager {
         // 忽略终止错误
       }
     }
-    
+
     // 等待一小段时间确保进程完全终止
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     logSuccess("所有 MCP 客户端连接已优雅关闭");
-    
+
     // 清空集合
     this.clients.clear();
     this.transports.clear();
@@ -165,7 +168,7 @@ async function queryServer(serverName, serverConfig, configPath) {
         });
 
         await client.connect(transport);
-        
+
         // 注册到管理器
         clientManager.addClient(client, transport);
 
@@ -200,19 +203,19 @@ async function queryServer(serverName, serverConfig, configPath) {
       transport.onerror = (error) => {
         console.error("Transport error:", error.message);
       };
-      
+
       // 获取底层的进程引用（如果可用）
       if (transport._process) {
         clientManager.addStdioProcess(transport._process);
       }
-      
+
       client = new Client({
         name: "mcp-tools-list-client",
         version: "1.0.0",
       });
 
       await client.connect(transport);
-      
+
       // 注册到管理器
       clientManager.addClient(client, transport);
 
@@ -232,10 +235,9 @@ async function queryServer(serverName, serverConfig, configPath) {
       success: false,
       error: error.message,
       stderr: error.stderr,
-      note:
-        serverConfig.type === "http"
-          ? "HTTP 服务器可能需要特定的认证或连接方式"
-          : undefined,
+      note: serverConfig.type === "http"
+        ? "HTTP 服务器可能需要特定的认证或连接方式"
+        : undefined,
     };
   } finally {
     // 不在这里立即清理，由管理器统一处理
@@ -302,10 +304,9 @@ function generateReport(results, configPath) {
 
         // 限制描述长度，避免表格过宽
         const maxLength = 200000;
-        const finalDesc =
-          escapedDesc.length > maxLength
-            ? escapedDesc.substring(0, maxLength) + "..."
-            : escapedDesc;
+        const finalDesc = escapedDesc.length > maxLength
+          ? escapedDesc.substring(0, maxLength) + "..."
+          : escapedDesc;
 
         markdown += `| \`${name}\` | ${finalDesc} |\n`;
       });
@@ -404,7 +405,7 @@ async function main() {
 
   const serverNames = Object.keys(config.mcpServers);
   logInfo(
-    `找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(", ")}`
+    `找到 ${serverNames.length} 个 MCP 服务器: ${serverNames.join(", ")}`,
   );
 
   log("\n🚀 开始查询...", "cyan");
@@ -473,8 +474,8 @@ if (import.meta.main) {
   // 重写console.error以抑制EPIPE错误
   const originalConsoleError = console.error;
   console.error = (...args) => {
-    const message = args.join(' ');
-    if (message.includes('EPIPE') || message.includes('broken pipe')) {
+    const message = args.join(" ");
+    if (message.includes("EPIPE") || message.includes("broken pipe")) {
       return; // 静默处理管道错误
     }
     originalConsoleError.apply(console, args);
@@ -482,33 +483,33 @@ if (import.meta.main) {
 
   // 抑制STDIO错误输出
   process.on("unhandledRejection", (error) => {
-    if (error.code === 'EPIPE' || error.message.includes('EPIPE')) {
+    if (error.code === "EPIPE" || error.message.includes("EPIPE")) {
       // 静默处理EPIPE错误
       return;
     }
     console.error("unhandledRejection", error);
   });
-  
+
   process.on("uncaughtException", (error) => {
-    if (error.code === 'EPIPE' || error.message.includes('EPIPE')) {
+    if (error.code === "EPIPE" || error.message.includes("EPIPE")) {
       // 静默处理EPIPE错误
       return;
     }
     console.error("uncaughtException", error);
   });
-  
+
   // 抑制STDIO错误事件
-  process.on('message', (msg) => {
-    if (msg && msg.type === 'stderr' && msg.data.includes('EPIPE')) {
+  process.on("message", (msg) => {
+    if (msg && msg.type === "stderr" && msg.data.includes("EPIPE")) {
       // 静默处理STDIO的EPIPE错误
       return;
     }
   });
-  
+
   // 监听退出信号
   process.on("SIGINT", () => gracefulExit("SIGINT"));
   process.on("SIGTERM", () => gracefulExit("SIGTERM"));
-  
+
   // 监听进程退出事件
   process.on("exit", (code) => {
     if (code === 0) {
@@ -518,29 +519,29 @@ if (import.meta.main) {
       logError(`程序异常退出，代码: ${code}`);
     }
   });
-  
+
   // 立即设置退出处理
   let isExiting = false;
   const safeExit = async (code) => {
     if (isExiting) return;
     isExiting = true;
-    
+
     try {
       await clientManager.closeAll();
     } catch (e) {
       // 忽略关闭错误
     }
-    
+
     process.exit(code);
   };
-  
+
   main()
     .then(() => {
       safeExit(0);
       process.exit(0);
     })
     .catch((error) => {
-      if (error.code !== 'EPIPE') {
+      if (error.code !== "EPIPE") {
         logError(`程序失败: ${error.message}`);
       }
       safeExit(1);
