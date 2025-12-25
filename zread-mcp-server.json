@@ -4,7 +4,7 @@
       "type": "http",
       "url": "https://open.bigmodel.cn/api/mcp/zread/mcp",
       "headers": {
-        "Authorization": "Bearer your_api_key"
+        "Authorization": "Bearer <your_api_key>"
       }
     }
   }
