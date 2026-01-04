@@ -4,6 +4,7 @@
   "description": "这个项目演示如何为 Claude Code 配置 MCP (Model Context Protocol) 服务器。",
   "main": "index.js",
   "scripts": {
+    "start":"node merge-mcp-config.js",
     "format": "npx -y prettier --write ."
   },
   "repository": {
