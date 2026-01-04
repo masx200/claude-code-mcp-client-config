@@ -43,10 +43,9 @@ function executeInstallCommand(command) {
     console.log(`执行安装命令: ${command}`);
 
     // 根据操作系统选择shell
-    const shell = os.platform() === "win32" ? "cmd.exe" : "bash";
-    const shellArgs = os.platform() === "win32"
-      ? ["/c", command]
-      : ["-c", command];
+    const platform = os.platform();
+    const shell = platform === "win32" ? "cmd.exe" : "bash";
+    const shellArgs = platform === "win32" ? ["/c", command] : ["-c", command];
 
     const child = spawn(shell, shellArgs, {
       stdio: "inherit",
@@ -70,20 +69,69 @@ function executeInstallCommand(command) {
   });
 }
 
+// 获取平台特定的安装命令
+function getPlatformInstallCommand(installCommand) {
+  const platform = os.platform();
+
+  // 如果是字符串，直接返回
+  if (typeof installCommand === "string") {
+    return installCommand;
+  }
+
+  // 如果是对象，根据平台返回对应的命令
+  if (typeof installCommand === "object") {
+    if (platform === "win32" && installCommand.windows) {
+      return installCommand.windows;
+    } else if (platform === "darwin" && installCommand.mac) {
+      return installCommand.mac;
+    } else if (platform === "linux" && installCommand.linux) {
+      return installCommand.linux;
+    }
+    // 如果没有找到匹配的平台，尝试使用通用命令
+    if (installCommand.default) {
+      return installCommand.default;
+    }
+  }
+
+  return null;
+}
+
 // 安装MCP服务器
-async function installMcpServers(mcpServers, skipInstall = false) {
+async function installMcpServers(
+  mcpServers,
+  skipInstall = false,
+  configFilePath = null,
+) {
   if (skipInstall) {
     console.log("跳过安装步骤");
     return;
   }
 
   const installPromises = [];
+  // 获取配置文件所在目录的绝对路径
+  const workingDir = configFilePath
+    ? path.dirname(path.resolve(configFilePath))
+    : process.cwd();
 
   for (const [serverName, serverConfig] of Object.entries(mcpServers)) {
     if (serverConfig.installCommand) {
+      // 获取平台特定的安装命令
+      const platformCommand = getPlatformInstallCommand(
+        serverConfig.installCommand,
+      );
+
+      if (!platformCommand) {
+        console.warn(`${serverName}: 没有找到适合当前平台的安装命令`);
+        continue;
+      }
+
       console.log(`准备安装 ${serverName}...`);
+
+      // 替换 ${pwd} 为工作目录的绝对路径
+      const replacedCommand = platformCommand.replace(/\$\{pwd\}/g, workingDir);
+
       installPromises.push(
-        executeInstallCommand(serverConfig.installCommand)
+        executeInstallCommand(replacedCommand)
           .then(() => console.log(`${serverName} 安装完成`))
           .catch((error) =>
             console.warn(`${serverName} 安装失败:`, error.message)
@@ -102,7 +150,7 @@ async function installMcpServers(mcpServers, skipInstall = false) {
 }
 
 // 合并MCP服务器配置
-function mergeMcpServers(existingConfig, newConfig) {
+function mergeMcpServers(existingConfig, newConfig, workingDir = null) {
   const result = { ...existingConfig };
 
   // 确保mcpServers对象存在
@@ -112,10 +160,25 @@ function mergeMcpServers(existingConfig, newConfig) {
 
   // 合并新的mcpServers配置
   if (newConfig.mcpServers) {
-    result.mcpServers = {
-      ...result.mcpServers,
-      ...newConfig.mcpServers,
-    };
+    for (
+      const [serverName, serverConfig] of Object.entries(newConfig.mcpServers)
+    ) {
+      // 克隆服务器配置
+      const mergedConfig = { ...serverConfig };
+
+      // 如果有工作目录，替换配置中的 ${pwd} 占位符
+      if (workingDir && mergedConfig.args) {
+        mergedConfig.args = mergedConfig.args.map((arg) => {
+          // 替换路径中的 ${pwd}
+          if (typeof arg === "string" && arg.includes("${pwd}")) {
+            return arg.replace(/\$\{pwd\}/g, workingDir);
+          }
+          return arg;
+        });
+      }
+
+      result.mcpServers[serverName] = mergedConfig;
+    }
   }
 
   return result;
@@ -191,8 +254,16 @@ async function main() {
   // 加载并合并所有配置
   let mergedNewConfig = { mcpServers: {} };
   const allMcpServers = {};
+  const configFilesPaths = [];
 
   for (const input of inputs) {
+    const isFile = fs.existsSync(input);
+    const configFilePath = isFile ? path.resolve(input) : null;
+
+    if (configFilePath) {
+      configFilesPaths.push(configFilePath);
+    }
+
     const config = loadConfig(input);
 
     // 验证输入的配置格式
@@ -204,13 +275,22 @@ async function main() {
     // 收集所有需要安装的服务器
     Object.assign(allMcpServers, config.mcpServers);
 
-    // 合并配置
-    mergedNewConfig = mergeMcpServers(mergedNewConfig, config);
+    // 获取配置文件所在目录
+    const workingDir = configFilePath
+      ? path.dirname(configFilePath)
+      : process.cwd();
+
+    // 合并配置，并替换 ${pwd} 为绝对路径
+    mergedNewConfig = mergeMcpServers(mergedNewConfig, config, workingDir);
   }
 
-  // 安装MCP服务器
+  // 安装MCP服务器（传入配置文件路径）
   if (Object.keys(allMcpServers).length > 0) {
-    await installMcpServers(allMcpServers, skipInstall);
+    // 使用第一个配置文件所在的目录作为工作目录
+    const firstConfigPath = configFilesPaths.length > 0
+      ? configFilesPaths[0]
+      : null;
+    await installMcpServers(allMcpServers, skipInstall, firstConfigPath);
   }
 
   if (dryRun) {

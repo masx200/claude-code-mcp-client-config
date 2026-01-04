@@ -1,13 +1,13 @@
 # Claude MCP 工具列表报告 (SDK 版本)
 
-> 生成时间: 2025/11/18 12:02:36 配置文件: C:\Users\Administrator\.claude.json
+> 生成时间: 2026/1/4 17:49:11 配置文件: C:\Users\Administrator\.claude.json
 > 查询方式: MCP TypeScript SDK
 
 ## 📊 统计概览
 
-- **总服务器数**: 9
-- **成功查询**: 9
-- **总工具数**: 129
+- **总服务器数**: 12
+- **成功查询**: 12
+- **总工具数**: 169
 
 ---
 
@@ -62,36 +62,37 @@
 
 ### gitee
 
-**工具数量**: 26
+**工具数量**: 27
 
-| 工具名称                          | 描述                                                                                   |
-| --------------------------------- | -------------------------------------------------------------------------------------- |
-| `comment_issue`                   | Create a comment on a repository issue                                                 |
-| `comment_pull`                    | Create a comment on a pull request                                                     |
-| `create_enterprise_repo`          | Create a enterprise repository                                                         |
-| `create_issue`                    | Create an issue                                                                        |
-| `create_org_repo`                 | Create a org repository                                                                |
-| `create_pull`                     | Create a pull request                                                                  |
-| `create_release`                  | Create a release                                                                       |
-| `create_user_repo`                | Create a user repository                                                               |
-| `fork_repository`                 | Fork a repository                                                                      |
-| `get_diff_files`                  | Get a pull request diff files                                                          |
-| `get_file_content`                | Get the content of the specified file in the repository                                |
-| `get_pull_detail`                 | Get a pull request detail                                                              |
-| `get_repo_issue_detail`           | Get the detail of an issue                                                             |
-| `get_user_info`                   | This is a tool from the gitee MCP server. Get information about the authenticated user |
-| `list_issue_comments`             | Get all comments for a repository issue                                                |
-| `list_pull_comments`              | List all comments for a pull request                                                   |
-| `list_releases`                   | List repository releases                                                               |
-| `list_repo_issues`                | List all issues in a repository                                                        |
-| `list_repo_pulls`                 | List repository pulls                                                                  |
-| `list_user_notifications`         | List all notifications for authorized user                                             |
-| `list_user_repos`                 | List user authorized repositories                                                      |
-| `merge_pull`                      | Merge a pull request                                                                   |
-| `search_open_source_repositories` | Search open source repositories on Gitee                                               |
-| `search_users`                    | Search users on Gitee                                                                  |
-| `update_issue`                    | Update an issue                                                                        |
-| `update_pull`                     | Update a pull request                                                                  |
+| 工具名称                             | 描述                                                                                   |
+| ------------------------------------ | -------------------------------------------------------------------------------------- |
+| `v5#comment_issue`                   | Create a comment on a repository issue                                                 |
+| `v5#comment_pull`                    | Create a comment on a pull request                                                     |
+| `v5#create_enterprise_repo`          | Create a enterprise repository                                                         |
+| `v5#create_issue`                    | Create an issue                                                                        |
+| `v5#create_org_repo`                 | Create a org repository                                                                |
+| `v5#create_pull`                     | Create a pull request                                                                  |
+| `v5#create_release`                  | Create a release                                                                       |
+| `v5#create_user_repo`                | Create a user repository                                                               |
+| `v5#fork_repository`                 | Fork a repository                                                                      |
+| `v5#get_diff_files`                  | Get a pull request diff files                                                          |
+| `v5#get_file_content`                | Get the content of the specified file in the repository                                |
+| `v5#get_pull_detail`                 | Get a pull request detail                                                              |
+| `v5#get_repo_issue_detail`           | Get the detail of an issue                                                             |
+| `v5#get_user_info`                   | This is a tool from the gitee MCP server. Get information about the authenticated user |
+| `v5#list_issue_comments`             | Get all comments for a repository issue                                                |
+| `v5#list_pull_comments`              | List all comments for a pull request                                                   |
+| `v5#list_releases`                   | List repository releases                                                               |
+| `v5#list_repo_issues`                | List all issues in a repository                                                        |
+| `v5#list_repo_pulls`                 | List repository pulls                                                                  |
+| `v5#list_user_notifications`         | List all notifications for authorized user                                             |
+| `v5#list_user_repos`                 | List user authorized repositories                                                      |
+| `v5#merge_pull`                      | Merge a pull request                                                                   |
+| `v5#search_files_by_content`         | Search files by content in a repository                                                |
+| `v5#search_open_source_repositories` | Search open source repositories on Gitee                                               |
+| `v5#search_users`                    | Search users on Gitee                                                                  |
+| `v5#update_issue`                    | Update an issue                                                                        |
+| `v5#update_pull`                     | Update a pull request                                                                  |
 
 ### MongoDB
 
@@ -126,28 +127,58 @@
 | `atlas-local-create-deployment`  | Create a MongoDB Atlas local deployment                                                                                                                                                                                                                                                                                                                               |
 | `atlas-local-connect-deployment` | Connect to a MongoDB Atlas Local deployment                                                                                                                                                                                                                                                                                                                           |
 
-### supervisord
+### chrome-devtools-mcp
 
-**工具数量**: 16
+**工具数量**: 26
 
-| 工具名称              | 描述                                                                       |
-| --------------------- | -------------------------------------------------------------------------- |
-| `list_programs`       | List all managed programs and their current status                         |
-| `start_program`       | Start a single program by name                                             |
-| `stop_program`        | Stop a single program by name                                              |
-| `start_programs`      | Start multiple programs by providing a list of program names               |
-| `stop_programs`       | Stop multiple programs by providing a list of program names                |
-| `read_log`            | Read stdout or stderr log of a program with optional pagination            |
-| `get_config`          | Get the current supervisord configuration or a specific section            |
-| `update_config`       | Update a specific configuration value                                      |
-| `reload_supervisor`   | Reload supervisord configuration without restarting                        |
-| `get_program_status`  | Get detailed status information for a specific program                     |
-| `get_supervisor_info` | Get supervisord PID, version, and system information                       |
-| `get_supervisor_log`  | Read supervisord daemon log with optional pagination                       |
-| `send_signal`         | Send Unix signal to a specific program (e.g., SIGHUP, SIGTERM, SIGKILL)    |
-| `get_program_info`    | Get detailed information about a specific program including PID and status |
-| `create_program`      | Create a new program/service in supervisord configuration                  |
-| `delete_program`      | Delete a program/service from supervisord configuration                    |
+| 工具名称                      | 描述                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `click`                       | Clicks on the provided element                                                                                                                                                                                                                                                                                             |
+| `close_page`                  | Closes the page by its index. The last open page cannot be closed.                                                                                                                                                                                                                                                         |
+| `drag`                        | Drag an element onto another element                                                                                                                                                                                                                                                                                       |
+| `emulate`                     | Emulates various features on the selected page.                                                                                                                                                                                                                                                                            |
+| `evaluate_script`             | Evaluate a JavaScript function inside the currently selected page. Returns the response as JSON so returned values have to JSON-serializable.                                                                                                                                                                              |
+| `fill`                        | Type text into a input, text area or select an option from a <select> element.                                                                                                                                                                                                                                             |
+| `fill_form`                   | Fill out multiple form elements at once                                                                                                                                                                                                                                                                                    |
+| `get_console_message`         | Gets a console message by its ID. You can get all messages by calling list_console_messages.                                                                                                                                                                                                                               |
+| `get_network_request`         | Gets a network request by an optional reqid, if omitted returns the currently selected request in the DevTools Network panel.                                                                                                                                                                                              |
+| `handle_dialog`               | If a browser dialog was opened, use this command to handle it                                                                                                                                                                                                                                                              |
+| `hover`                       | Hover over the provided element                                                                                                                                                                                                                                                                                            |
+| `list_console_messages`       | List all console messages for the currently selected page since the last navigation.                                                                                                                                                                                                                                       |
+| `list_network_requests`       | List all requests for the currently selected page since the last navigation.                                                                                                                                                                                                                                               |
+| `list_pages`                  | Get a list of pages open in the browser.                                                                                                                                                                                                                                                                                   |
+| `navigate_page`               | Navigates the currently selected page to a URL.                                                                                                                                                                                                                                                                            |
+| `new_page`                    | Creates a new page                                                                                                                                                                                                                                                                                                         |
+| `performance_analyze_insight` | Provides more detailed information on a specific Performance Insight of an insight set that was highlighted in the results of a trace recording.                                                                                                                                                                           |
+| `performance_start_trace`     | Starts a performance trace recording on the selected page. This can be used to look for performance problems and insights to improve the performance of the page. It will also report Core Web Vital (CWV) scores for the page.                                                                                            |
+| `performance_stop_trace`      | Stops the active performance trace recording on the selected page.                                                                                                                                                                                                                                                         |
+| `press_key`                   | Press a key or key combination. Use this when other input methods like fill() cannot be used (e.g., keyboard shortcuts, navigation keys, or special key combinations).                                                                                                                                                     |
+| `resize_page`                 | Resizes the selected page's window so that the page has specified dimension                                                                                                                                                                                                                                                |
+| `select_page`                 | Select a page as a context for future tool calls.                                                                                                                                                                                                                                                                          |
+| `take_screenshot`             | Take a screenshot of the page or element.                                                                                                                                                                                                                                                                                  |
+| `take_snapshot`               | Take a text snapshot of the currently selected page based on the a11y tree. The snapshot lists page elements along with a unique identifier (uid). Always use the latest snapshot. Prefer taking a snapshot over taking a screenshot. The snapshot indicates the element selected in the DevTools Elements panel (if any). |
+| `upload_file`                 | Upload a file through a provided element.                                                                                                                                                                                                                                                                                  |
+| `wait_for`                    | Wait for the specified text to appear on the selected page.                                                                                                                                                                                                                                                                |
+
+### GitLab-LuisCusihuaman
+
+**工具数量**: 13
+
+| 工具名称                  | 描述                                                                                                     |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `getIssue`                | Retrieves details for a specific GitLab issue.                                                           |
+| `getIssueComments`        | Retrieves comments or notes from a specific issue in a GitLab project.                                   |
+| `getIssueLabels`          | Retrieves the labels associated with a specific GitLab issue.                                            |
+| `getMergeRequest`         | Retrieves details for a specific GitLab merge request.                                                   |
+| `getMergeRequestComments` | Retrieves comments or notes from a specific merge request in a GitLab project.                           |
+| `getProject`              | Retrieves details for a specific GitLab project.                                                         |
+| `getProjectBranches`      | Retrieves a list of repository branches from a project, sorted by name alphabetically.                   |
+| `getProjectCommits`       | Retrieves a list of repository commits in a project, optionally filtered by ref, path, dates, and stats. |
+| `getProjectFile`          | Retrieves the content of a specific file within a GitLab project repository.                             |
+| `listIssues`              | Retrieves a list of issues in a GitLab project with pagination and filtering.                            |
+| `listMergeRequests`       | Lists merge requests for a GitLab project with filtering and pagination options.                         |
+| `listProjectFiles`        | Retrieves a list of files and directories within a specific path in a GitLab project repository.         |
+| `listProjects`            | Retrieves a list of projects based on specified criteria.                                                |
 
 ### firecrawl-mcp-server
 
@@ -164,6 +195,21 @@
 | `firecrawl_deep_research`      | Conduct deep web research on a query using intelligent crawling, search, and LLM analysis. **Best for:** Complex research questions requiring multiple sources, in-depth analysis. **Not recommended for:** Simple questions that can be answered with a single search; when you need very specific information from a known page (use scrape); when you need results quickly (deep research can take time). **Arguments:** - query (string, required): The research question or topic to explore. - maxDepth (number, optional): Maximum recursive depth for crawling/search (default: 3). - timeLimit (number, optional): Time limit in seconds for the research session (default: 120). - maxUrls (number, optional): Maximum number of URLs to analyze (default: 50). **Prompt Example:** "Research the environmental impact of electric vehicles versus gasoline vehicles." **Usage Example:** \`\`\`json { "name": "firecrawl_deep_research", "arguments": { "query": "What are the environmental impacts of electric vehicles compared to gasoline vehicles?", "maxDepth": 3, "timeLimit": 120, "maxUrls": 50 } } \`\`\` **Returns:** Final analysis generated by an LLM based on research. (data.finalAnalysis); may also include structured activities and sources used in the research process.                                                                                                                                                                                                              |
 | `firecrawl_generate_llmstxt`   | Generate a standardized llms.txt (and optionally llms-full.txt) file for a given domain. This file defines how large language models should interact with the site. **Best for:** Creating machine-readable permission guidelines for AI models. **Not recommended for:** General content extraction or research. **Arguments:** - url (string, required): The base URL of the website to analyze. - maxUrls (number, optional): Max number of URLs to include (default: 10). - showFullText (boolean, optional): Whether to include llms-full.txt contents in the response. **Prompt Example:** "Generate an LLMs.txt file for example.com." **Usage Example:** \`\`\`json { "name": "firecrawl_generate_llmstxt", "arguments": { "url": "https://example.com", "maxUrls": 20, "showFullText": true } } \`\`\` **Returns:** LLMs.txt file contents (and optionally llms-full.txt).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
+### zai-mcp-server
+
+**工具数量**: 8
+
+| 工具名称                       | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ui_to_artifact`               | Convert UI screenshots into various artifacts: code, prompts, design specifications, or descriptions. Use this tool ONLY when the user wants to: - Generate frontend code from UI design (output_type='code') - Create AI prompts for UI generation (output_type='prompt') - Extract design specifications (output_type='spec') - Get natural language description of the UI (output_type='description') Do NOT use for: screenshots containing text/code to extract, error messages, diagrams, or data visualizations. |
+| `extract_text_from_screenshot` | Extract and recognize text from screenshots using advanced OCR capabilities. Use this tool ONLY when the user has a screenshot containing text and wants to extract it. This tool specializes in OCR for code, terminal output, documentation, and general text extraction. Do NOT use for: UI design conversion, error diagnosis, or diagram understanding.                                                                                                                                                            |
+| `diagnose_error_screenshot`    | Diagnose and analyze error messages, stack traces, and exception screenshots. Use this tool ONLY when the user has an error screenshot and needs help understanding or fixing it. This tool specializes in error analysis and provides actionable solutions. Do NOT use for: code extraction, UI analysis, or diagram understanding.                                                                                                                                                                                    |
+| `understand_technical_diagram` | Analyze and explain technical diagrams including architecture diagrams, flowcharts, UML, ER diagrams, and system design diagrams. Use this tool ONLY when the user has a technical diagram and wants to understand its structure or components. This tool specializes in interpreting visual technical documentation. Do NOT use for: UI screenshots, error messages, or data visualizations/charts.                                                                                                                    |
+| `analyze_data_visualization`   | Analyze data visualizations, charts, graphs, and dashboards to extract insights and trends. Use this tool ONLY when the user has a data visualization image and wants to understand the data patterns or metrics. This tool specializes in interpreting visual data representations. Do NOT use for: UI mockups, error messages, or technical architecture diagrams.                                                                                                                                                    |
+| `ui_diff_check`                | Compare two UI screenshots to identify visual differences and implementation discrepancies. Use this tool ONLY when the user wants to compare an expected/reference UI with an actual implementation. This tool is specialized for UI quality assurance and design-to-implementation verification. Do NOT use for: general image comparison, error diagnosis, or analyzing single UIs.                                                                                                                                  |
+| `analyze_image`                | General-purpose image analysis for scenarios not covered by specialized tools. Use this tool as a FALLBACK when none of the other specialized tools (ui_to_artifact, extract_text_from_screenshot, diagnose_error_screenshot, understand_technical_diagram, analyze_data_visualization, ui_diff_check) fit the user's need. This tool provides flexible image understanding for any visual content.                                                                                                                     |
+| `analyze_video`                | Analyze video content using advanced AI vision models. Use this tool when the user wants to: - Understand what happens in a video - Extract key moments or actions from video - Analyze video content, scenes, or sequences - Get descriptions of video footage - Identify objects, people, or activities in video Supports both local files and remote URL. Maximum file size: 8MB. Supports MP4, MOV, M4V formats.                                                                                                    |
+
 ### mcp_server_mysql
 
 **工具数量**: 7
@@ -178,6 +224,19 @@
 | `show_statement` | Execute a SHOW statement (e.g., SHOW STATUS, SHOW VARIABLES)                                      |
 | `explain`        | Analyze SQL query performance using EXPLAIN                                                       |
 
+### GitLab-masx200
+
+**工具数量**: 6
+
+| 工具名称                   | 描述                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `create_gitlab_repository` | 在 GitLab 上创建一个新的仓库（项目）。需要提供仓库名称，可选描述和可见性设置。创建成功后会返回仓库的访问URL。 |
+| `list_gitlab_projects`     | 获取当前用户可见的 GitLab 项目列表。可用于查看现有仓库或进行项目管理。                                        |
+| `get_gitlab_project`       | 获取指定 GitLab 项目的详细信息，包括项目ID、名称、描述、可见性、创建时间等。                                  |
+| `delete_gitlab_project`    | 删除指定的 GitLab 项目。此操作不可逆，请谨慎使用！需要提供项目ID或路径。                                      |
+| `create_gitlab_branch`     | 在 GitLab 项目中创建新分支。可用于功能开发、版本管理等场景。                                                  |
+| `get_gitlab_user`          | 获取当前 GitLab 用户的个人信息，包括用户名、邮箱、创建时间等。可用于验证Token权限。                           |
+
 ### tavily
 
 **工具数量**: 4
@@ -189,13 +248,15 @@
 | `tavily_crawl`   | Crawl multiple pages from a website starting from a base URL. Use this tool when you need to gather information from multiple related pages across a website or explore a site's structure. It follows internal links and extracts content from multiple pages, but truncates content to 500 characters per page. For full content extraction, use tavily_map to discover URLs first, then tavily_extract to get complete content from specific pages. Useful for comprehensive research on documentation sites, blogs, or when you need to understand the full scope of information available on a website. |
 | `tavily_map`     | Map and discover the structure of a website by finding all its URLs and pages. Use this tool when you need to understand a website's organization, find specific pages, or get an overview of all available content without extracting the actual text. Returns a structured list of URLs and their relationships. Useful for site exploration, finding documentation pages, or understanding how a website is organized.                                                                                                                                                                                    |
 
-### MySQL
+### zread
 
-**工具数量**: 1
+**工具数量**: 3
 
-| 工具名称      | 描述                                     |
-| ------------- | ---------------------------------------- |
-| `execute_sql` | Execute an SQL query on the MySQL server |
+| 工具名称             | 描述                                                                  |
+| -------------------- | --------------------------------------------------------------------- |
+| `search_doc`         | Search documentation, issues, and commits of a GitHub repository.     |
+| `read_file`          | Read the full code content of a specific file in a GitHub repository. |
+| `get_repo_structure` | Get the directory structure and file list of a GitHub repository.     |
 
 ### image-search-unsplash
 
@@ -313,37 +374,38 @@ Available methods:
 - **`update_pull_request_branch`**: Update the branch of a pull request with the
   latest changes from the base branch.
 
-### gitee (26 个工具)
+### gitee (27 个工具)
 
-- **`comment_issue`**: Create a comment on a repository issue
-- **`comment_pull`**: Create a comment on a pull request
-- **`create_enterprise_repo`**: Create a enterprise repository
-- **`create_issue`**: Create an issue
-- **`create_org_repo`**: Create a org repository
-- **`create_pull`**: Create a pull request
-- **`create_release`**: Create a release
-- **`create_user_repo`**: Create a user repository
-- **`fork_repository`**: Fork a repository
-- **`get_diff_files`**: Get a pull request diff files
-- **`get_file_content`**: Get the content of the specified file in the
+- **`v5#comment_issue`**: Create a comment on a repository issue
+- **`v5#comment_pull`**: Create a comment on a pull request
+- **`v5#create_enterprise_repo`**: Create a enterprise repository
+- **`v5#create_issue`**: Create an issue
+- **`v5#create_org_repo`**: Create a org repository
+- **`v5#create_pull`**: Create a pull request
+- **`v5#create_release`**: Create a release
+- **`v5#create_user_repo`**: Create a user repository
+- **`v5#fork_repository`**: Fork a repository
+- **`v5#get_diff_files`**: Get a pull request diff files
+- **`v5#get_file_content`**: Get the content of the specified file in the
   repository
-- **`get_pull_detail`**: Get a pull request detail
-- **`get_repo_issue_detail`**: Get the detail of an issue
-- **`get_user_info`**: This is a tool from the gitee MCP server. Get information
-  about the authenticated user
-- **`list_issue_comments`**: Get all comments for a repository issue
-- **`list_pull_comments`**: List all comments for a pull request
-- **`list_releases`**: List repository releases
-- **`list_repo_issues`**: List all issues in a repository
-- **`list_repo_pulls`**: List repository pulls
-- **`list_user_notifications`**: List all notifications for authorized user
-- **`list_user_repos`**: List user authorized repositories
-- **`merge_pull`**: Merge a pull request
-- **`search_open_source_repositories`**: Search open source repositories on
+- **`v5#get_pull_detail`**: Get a pull request detail
+- **`v5#get_repo_issue_detail`**: Get the detail of an issue
+- **`v5#get_user_info`**: This is a tool from the gitee MCP server. Get
+  information about the authenticated user
+- **`v5#list_issue_comments`**: Get all comments for a repository issue
+- **`v5#list_pull_comments`**: List all comments for a pull request
+- **`v5#list_releases`**: List repository releases
+- **`v5#list_repo_issues`**: List all issues in a repository
+- **`v5#list_repo_pulls`**: List repository pulls
+- **`v5#list_user_notifications`**: List all notifications for authorized user
+- **`v5#list_user_repos`**: List user authorized repositories
+- **`v5#merge_pull`**: Merge a pull request
+- **`v5#search_files_by_content`**: Search files by content in a repository
+- **`v5#search_open_source_repositories`**: Search open source repositories on
   Gitee
-- **`search_users`**: Search users on Gitee
-- **`update_issue`**: Update an issue
-- **`update_pull`**: Update a pull request
+- **`v5#search_users`**: Search users on Gitee
+- **`v5#update_issue`**: Update an issue
+- **`v5#update_pull`**: Update a pull request
 
 ### MongoDB (26 个工具)
 
@@ -388,33 +450,81 @@ Available methods:
 - **`atlas-local-connect-deployment`**: Connect to a MongoDB Atlas Local
   deployment
 
-### supervisord (16 个工具)
+### chrome-devtools-mcp (26 个工具)
 
-- **`list_programs`**: List all managed programs and their current status
-- **`start_program`**: Start a single program by name
-- **`stop_program`**: Stop a single program by name
-- **`start_programs`**: Start multiple programs by providing a list of program
-  names
-- **`stop_programs`**: Stop multiple programs by providing a list of program
-  names
-- **`read_log`**: Read stdout or stderr log of a program with optional
-  pagination
-- **`get_config`**: Get the current supervisord configuration or a specific
-  section
-- **`update_config`**: Update a specific configuration value
-- **`reload_supervisor`**: Reload supervisord configuration without restarting
-- **`get_program_status`**: Get detailed status information for a specific
-  program
-- **`get_supervisor_info`**: Get supervisord PID, version, and system
-  information
-- **`get_supervisor_log`**: Read supervisord daemon log with optional pagination
-- **`send_signal`**: Send Unix signal to a specific program (e.g., SIGHUP,
-  SIGTERM, SIGKILL)
-- **`get_program_info`**: Get detailed information about a specific program
-  including PID and status
-- **`create_program`**: Create a new program/service in supervisord
-  configuration
-- **`delete_program`**: Delete a program/service from supervisord configuration
+- **`click`**: Clicks on the provided element
+- **`close_page`**: Closes the page by its index. The last open page cannot be
+  closed.
+- **`drag`**: Drag an element onto another element
+- **`emulate`**: Emulates various features on the selected page.
+- **`evaluate_script`**: Evaluate a JavaScript function inside the currently
+  selected page. Returns the response as JSON so returned values have to
+  JSON-serializable.
+- **`fill`**: Type text into a input, text area or select an option from a
+  <select> element.
+- **`fill_form`**: Fill out multiple form elements at once
+- **`get_console_message`**: Gets a console message by its ID. You can get all
+  messages by calling list_console_messages.
+- **`get_network_request`**: Gets a network request by an optional reqid, if
+  omitted returns the currently selected request in the DevTools Network panel.
+- **`handle_dialog`**: If a browser dialog was opened, use this command to
+  handle it
+- **`hover`**: Hover over the provided element
+- **`list_console_messages`**: List all console messages for the currently
+  selected page since the last navigation.
+- **`list_network_requests`**: List all requests for the currently selected page
+  since the last navigation.
+- **`list_pages`**: Get a list of pages open in the browser.
+- **`navigate_page`**: Navigates the currently selected page to a URL.
+- **`new_page`**: Creates a new page
+- **`performance_analyze_insight`**: Provides more detailed information on a
+  specific Performance Insight of an insight set that was highlighted in the
+  results of a trace recording.
+- **`performance_start_trace`**: Starts a performance trace recording on the
+  selected page. This can be used to look for performance problems and insights
+  to improve the performance of the page. It will also report Core Web Vital
+  (CWV) scores for the page.
+- **`performance_stop_trace`**: Stops the active performance trace recording on
+  the selected page.
+- **`press_key`**: Press a key or key combination. Use this when other input
+  methods like fill() cannot be used (e.g., keyboard shortcuts, navigation keys,
+  or special key combinations).
+- **`resize_page`**: Resizes the selected page's window so that the page has
+  specified dimension
+- **`select_page`**: Select a page as a context for future tool calls.
+- **`take_screenshot`**: Take a screenshot of the page or element.
+- **`take_snapshot`**: Take a text snapshot of the currently selected page based
+  on the a11y tree. The snapshot lists page elements along with a unique
+  identifier (uid). Always use the latest snapshot. Prefer taking a snapshot
+  over taking a screenshot. The snapshot indicates the element selected in the
+  DevTools Elements panel (if any).
+- **`upload_file`**: Upload a file through a provided element.
+- **`wait_for`**: Wait for the specified text to appear on the selected page.
+
+### GitLab-LuisCusihuaman (13 个工具)
+
+- **`getIssue`**: Retrieves details for a specific GitLab issue.
+- **`getIssueComments`**: Retrieves comments or notes from a specific issue in a
+  GitLab project.
+- **`getIssueLabels`**: Retrieves the labels associated with a specific GitLab
+  issue.
+- **`getMergeRequest`**: Retrieves details for a specific GitLab merge request.
+- **`getMergeRequestComments`**: Retrieves comments or notes from a specific
+  merge request in a GitLab project.
+- **`getProject`**: Retrieves details for a specific GitLab project.
+- **`getProjectBranches`**: Retrieves a list of repository branches from a
+  project, sorted by name alphabetically.
+- **`getProjectCommits`**: Retrieves a list of repository commits in a project,
+  optionally filtered by ref, path, dates, and stats.
+- **`getProjectFile`**: Retrieves the content of a specific file within a GitLab
+  project repository.
+- **`listIssues`**: Retrieves a list of issues in a GitLab project with
+  pagination and filtering.
+- **`listMergeRequests`**: Lists merge requests for a GitLab project with
+  filtering and pagination options.
+- **`listProjectFiles`**: Retrieves a list of files and directories within a
+  specific path in a GitLab project repository.
+- **`listProjects`**: Retrieves a list of projects based on specified criteria.
 
 ### firecrawl-mcp-server (8 个工具)
 
@@ -643,6 +753,91 @@ the research process.
 
 **Returns:** LLMs.txt file contents (and optionally llms-full.txt).
 
+### zai-mcp-server (8 个工具)
+
+- **`ui_to_artifact`**: Convert UI screenshots into various artifacts: code,
+  prompts, design specifications, or descriptions.
+
+Use this tool ONLY when the user wants to:
+
+- Generate frontend code from UI design (output_type='code')
+- Create AI prompts for UI generation (output_type='prompt')
+- Extract design specifications (output_type='spec')
+- Get natural language description of the UI (output_type='description')
+
+Do NOT use for: screenshots containing text/code to extract, error messages,
+diagrams, or data visualizations.
+
+- **`extract_text_from_screenshot`**: Extract and recognize text from
+  screenshots using advanced OCR capabilities.
+
+Use this tool ONLY when the user has a screenshot containing text and wants to
+extract it. This tool specializes in OCR for code, terminal output,
+documentation, and general text extraction.
+
+Do NOT use for: UI design conversion, error diagnosis, or diagram understanding.
+
+- **`diagnose_error_screenshot`**: Diagnose and analyze error messages, stack
+  traces, and exception screenshots.
+
+Use this tool ONLY when the user has an error screenshot and needs help
+understanding or fixing it. This tool specializes in error analysis and provides
+actionable solutions.
+
+Do NOT use for: code extraction, UI analysis, or diagram understanding.
+
+- **`understand_technical_diagram`**: Analyze and explain technical diagrams
+  including architecture diagrams, flowcharts, UML, ER diagrams, and system
+  design diagrams.
+
+Use this tool ONLY when the user has a technical diagram and wants to understand
+its structure or components. This tool specializes in interpreting visual
+technical documentation.
+
+Do NOT use for: UI screenshots, error messages, or data visualizations/charts.
+
+- **`analyze_data_visualization`**: Analyze data visualizations, charts, graphs,
+  and dashboards to extract insights and trends.
+
+Use this tool ONLY when the user has a data visualization image and wants to
+understand the data patterns or metrics. This tool specializes in interpreting
+visual data representations.
+
+Do NOT use for: UI mockups, error messages, or technical architecture diagrams.
+
+- **`ui_diff_check`**: Compare two UI screenshots to identify visual differences
+  and implementation discrepancies.
+
+Use this tool ONLY when the user wants to compare an expected/reference UI with
+an actual implementation. This tool is specialized for UI quality assurance and
+design-to-implementation verification.
+
+Do NOT use for: general image comparison, error diagnosis, or analyzing single
+UIs.
+
+- **`analyze_image`**: General-purpose image analysis for scenarios not covered
+  by specialized tools.
+
+Use this tool as a FALLBACK when none of the other specialized tools
+(ui_to_artifact, extract_text_from_screenshot, diagnose_error_screenshot,
+understand_technical_diagram, analyze_data_visualization, ui_diff_check) fit the
+user's need.
+
+This tool provides flexible image understanding for any visual content.
+
+- **`analyze_video`**: Analyze video content using advanced AI vision models.
+
+Use this tool when the user wants to:
+
+- Understand what happens in a video
+- Extract key moments or actions from video
+- Analyze video content, scenes, or sequences
+- Get descriptions of video footage
+- Identify objects, people, or activities in video
+
+Supports both local files and remote URL. Maximum file size: 8MB. Supports MP4,
+MOV, M4V formats.
+
 ### mcp_server_mysql (7 个工具)
 
 - **`connect_db`**: Connect to MySQL database
@@ -654,6 +849,21 @@ the research process.
 - **`show_statement`**: Execute a SHOW statement (e.g., SHOW STATUS, SHOW
   VARIABLES)
 - **`explain`**: Analyze SQL query performance using EXPLAIN
+
+### GitLab-masx200 (6 个工具)
+
+- **`create_gitlab_repository`**: 在 GitLab
+  上创建一个新的仓库（项目）。需要提供仓库名称，可选描述和可见性设置。创建成功后会返回仓库的访问URL。
+- **`list_gitlab_projects`**: 获取当前用户可见的 GitLab
+  项目列表。可用于查看现有仓库或进行项目管理。
+- **`get_gitlab_project`**: 获取指定 GitLab
+  项目的详细信息，包括项目ID、名称、描述、可见性、创建时间等。
+- **`delete_gitlab_project`**: 删除指定的 GitLab
+  项目。此操作不可逆，请谨慎使用！需要提供项目ID或路径。
+- **`create_gitlab_branch`**: 在 GitLab
+  项目中创建新分支。可用于功能开发、版本管理等场景。
+- **`get_gitlab_user`**: 获取当前 GitLab
+  用户的个人信息，包括用户名、邮箱、创建时间等。可用于验证Token权限。
 
 ### tavily (4 个工具)
 
@@ -683,9 +893,14 @@ the research process.
   their relationships. Useful for site exploration, finding documentation pages,
   or understanding how a website is organized.
 
-### MySQL (1 个工具)
+### zread (3 个工具)
 
-- **`execute_sql`**: Execute an SQL query on the MySQL server
+- **`search_doc`**: Search documentation, issues, and commits of a GitHub
+  repository.
+- **`read_file`**: Read the full code content of a specific file in a GitHub
+  repository.
+- **`get_repo_structure`**: Get the directory structure and file list of a
+  GitHub repository.
 
 ### image-search-unsplash (1 个工具)
 

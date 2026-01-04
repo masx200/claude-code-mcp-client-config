@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "GitLab-LuisCusihuaman": {
+      "installCommand": "go install github.com/LuisCusihuaman/gitlab-mcp-server/cmd/gitlab-mcp-server@latest",
+      "type": "stdio",
+      "env": {
+        "GITLAB_TOKEN": "<gitlab api key>"
+      },
+      "args": [
+        "stdio"
+      ],
+      "command": "C:/Users/Administrator/go/bin/gitlab-mcp-server.exe"
+    }
+  }
+}

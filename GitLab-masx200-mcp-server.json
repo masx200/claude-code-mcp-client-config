@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "GitLab-masx200": {
+      "installCommand": {
+        "windows": "curl -L -o gitlab-mcp-server.tar.gz \"https://gitlab.com/masx200/gitlab-mcp-server/-/archive/main/gitlab-mcp-server-main.tar.gz?ref_type=heads\" && tar -xzf gitlab-mcp-server.tar.gz && cd gitlab-mcp-server-main && pnpm install && del ..\\gitlab-mcp-server.tar.gz",
+        "mac": "curl -L -o gitlab-mcp-server.tar.gz \"https://gitlab.com/masx200/gitlab-mcp-server/-/archive/main/gitlab-mcp-server-main.tar.gz?ref_type=heads\" && tar -xzf gitlab-mcp-server.tar.gz && cd gitlab-mcp-server-main && pnpm install && rm ../gitlab-mcp-server.tar.gz",
+        "linux": "curl -L -o gitlab-mcp-server.tar.gz \"https://gitlab.com/masx200/gitlab-mcp-server/-/archive/main/gitlab-mcp-server-main.tar.gz?ref_type=heads\" && tar -xzf gitlab-mcp-server.tar.gz && cd gitlab-mcp-server-main && pnpm install && rm ../gitlab-mcp-server.tar.gz"
+      },
+      "type": "stdio",
+      "env": {
+        "GITLAB_TOKEN": "<gitlab api key>"
+      },
+      "args": [
+        "${pwd}/gitlab-mcp-server-main/src/index.js"
+      ],
+      "command": "node"
+    }
+  }
+}
