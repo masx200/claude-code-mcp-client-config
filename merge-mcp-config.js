@@ -161,7 +161,9 @@ function mergeMcpServers(existingConfig, newConfig, workingDir = null) {
   // 合并新的mcpServers配置
   if (newConfig.mcpServers) {
     for (
-      const [serverName, serverConfig] of Object.entries(newConfig.mcpServers)
+      const [serverName, serverConfig] of Object.entries(
+        newConfig.mcpServers,
+      )
     ) {
       // 克隆服务器配置
       const mergedConfig = { ...serverConfig };
@@ -276,9 +278,9 @@ async function main() {
     Object.assign(allMcpServers, config.mcpServers);
 
     // 获取配置文件所在目录
-    const workingDir = configFilePath
-      ? path.dirname(configFilePath)
-      : process.cwd();
+    const workingDir = path.dirname(
+      configFilePath ? path.dirname(configFilePath) : process.cwd(),
+    );
 
     // 合并配置，并替换 ${pwd} 为绝对路径
     mergedNewConfig = mergeMcpServers(mergedNewConfig, config, workingDir);
