@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "glm-camp": {
+      "headers": {
+        "Authorization": "Bearer <api-key>"
+      },
+      "type": "http",
+      "url": "https://open.bigmodel.cn/api/mcp/glm_camp/mcp"
+    }
+  }
+}
