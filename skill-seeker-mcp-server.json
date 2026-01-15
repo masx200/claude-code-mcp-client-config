@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "skill-seeker": {
+      "command": "python",
+      "args": ["-m", "skill_seekers.mcp.server"],
+      "cwd": "C:\\Users\\Administrator\\Downloads\\Skill_Seekers-development\\Skill_Seekers-development"
+    }
+  }
+}
