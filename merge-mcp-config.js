@@ -134,7 +134,7 @@ async function installMcpServers(
         executeInstallCommand(replacedCommand)
           .then(() => console.log(`${serverName} 安装完成`))
           .catch((error) =>
-            console.warn(`${serverName} 安装失败:`, error.message)
+            console.warn(`${serverName} 安装失败:`, error.message),
           ),
       );
     }
@@ -160,11 +160,9 @@ function mergeMcpServers(existingConfig, newConfig, workingDir = null) {
 
   // 合并新的mcpServers配置
   if (newConfig.mcpServers) {
-    for (
-      const [serverName, serverConfig] of Object.entries(
-        newConfig.mcpServers,
-      )
-    ) {
+    for (const [serverName, serverConfig] of Object.entries(
+      newConfig.mcpServers,
+    )) {
       // 克隆服务器配置
       const mergedConfig = { ...serverConfig };
 
@@ -289,9 +287,8 @@ async function main() {
   // 安装MCP服务器（传入配置文件路径）
   if (Object.keys(allMcpServers).length > 0) {
     // 使用第一个配置文件所在的目录作为工作目录
-    const firstConfigPath = configFilesPaths.length > 0
-      ? configFilesPaths[0]
-      : null;
+    const firstConfigPath =
+      configFilesPaths.length > 0 ? configFilesPaths[0] : null;
     await installMcpServers(allMcpServers, skipInstall, firstConfigPath);
   }
 

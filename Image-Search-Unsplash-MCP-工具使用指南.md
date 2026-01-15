@@ -25,10 +25,7 @@ image-search-unsplash 是一个强大的 MCP (Model Context Protocol)
     "image-search-unsplash": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-unsplash-image-downloader"
-      ],
+      "args": ["-y", "mcp-unsplash-image-downloader"],
       "env": {
         "UNSPLASH_ACCESS_KEY": "your_unsplash_api_key_here"
       },
@@ -216,11 +213,13 @@ Unsplash 图片允许免费使用，但建议：
 <img
   src="/images/hello-world-test.jpg"
   alt="a laptop computer sitting on top of a wooden desk"
->
+/>
 <p class="photo-credit">
-  <small>Photo by <a href="https://unsplash.com/@claybanks" target="_blank"
-    >Clay Banks</a> on <a href="https://unsplash.com" target="_blank"
-    >Unsplash</a></small>
+  <small
+    >Photo by
+    <a href="https://unsplash.com/@claybanks" target="_blank">Clay Banks</a> on
+    <a href="https://unsplash.com" target="_blank">Unsplash</a></small
+  >
 </p>
 ```
 

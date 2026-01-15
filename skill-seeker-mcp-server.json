@@ -3,7 +3,14 @@
     "skill-seeker": {
       "command": "python",
       "args": ["-m", "skill_seekers.mcp.server"],
-      "cwd": "C:\\Users\\Administrator\\Downloads\\Skill_Seekers-development\\Skill_Seekers-development"
+      "cwd": "C:\\Users\\Administrator\\Downloads\\Skill_Seekers-development\\Skill_Seekers-development",
+      "installCommand": {
+        "windows": "pip install skill-seekers",
+        "mac": "pip3 install skill-seekers",
+        "linux": "pip3 install skill-seekers",
+        "default": "pip install skill-seekers"
+      },
+      "description": "Skill Seeker - 自动将文档网站、GitHub仓库和PDF转换为Claude AI技能的工具"
     }
   }
 }

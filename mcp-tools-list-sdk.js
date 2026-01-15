@@ -71,7 +71,8 @@ class ClientManager {
   async closeAll() {
     // 如果没有连接需要关闭，直接返回
     if (
-      this.clients.size === 0 && this.transports.size === 0 &&
+      this.clients.size === 0 &&
+      this.transports.size === 0 &&
       this.stdioProcesses.size === 0
     ) {
       return;
@@ -235,9 +236,10 @@ async function queryServer(serverName, serverConfig, configPath) {
       success: false,
       error: error.message,
       stderr: error.stderr,
-      note: serverConfig.type === "http"
-        ? "HTTP 服务器可能需要特定的认证或连接方式"
-        : undefined,
+      note:
+        serverConfig.type === "http"
+          ? "HTTP 服务器可能需要特定的认证或连接方式"
+          : undefined,
     };
   } finally {
     // 不在这里立即清理，由管理器统一处理
@@ -304,9 +306,10 @@ function generateReport(results, configPath) {
 
         // 限制描述长度，避免表格过宽
         const maxLength = 200000;
-        const finalDesc = escapedDesc.length > maxLength
-          ? escapedDesc.substring(0, maxLength) + "..."
-          : escapedDesc;
+        const finalDesc =
+          escapedDesc.length > maxLength
+            ? escapedDesc.substring(0, maxLength) + "..."
+            : escapedDesc;
 
         markdown += `| \`${name}\` | ${finalDesc} |\n`;
       });

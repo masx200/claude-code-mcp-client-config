@@ -10,9 +10,7 @@
       "env": {
         "GITLAB_TOKEN": "<gitlab api key>"
       },
-      "args": [
-        "${pwd}/gitlab-mcp-server-main/src/index.js"
-      ],
+      "args": ["${pwd}/gitlab-mcp-server-main/src/index.js"],
       "command": "node"
     }
   }

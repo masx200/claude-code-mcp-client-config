@@ -125,8 +125,7 @@ async function queryServer(serverName, serverConfig, configPath) {
       return await queryHttpServerWithSDK(serverName, serverConfig);
     } else {
       // STDIO 类型服务器使用 Inspector CLI
-      const command =
-        `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
+      const command = `npx -y @modelcontextprotocol/inspector --cli --config "${configPath}" --server "${serverName}" --method tools/list`;
 
       const { stdout, stderr } = await execAsync(command, {
         timeout: 30000,
@@ -227,9 +226,10 @@ function generateReport(results, configPath) {
 
         // 限制描述长度，避免表格过宽
         const maxLength = 200000;
-        const finalDesc = escapedDesc.length > maxLength
-          ? escapedDesc.substring(0, maxLength) + "..."
-          : escapedDesc;
+        const finalDesc =
+          escapedDesc.length > maxLength
+            ? escapedDesc.substring(0, maxLength) + "..."
+            : escapedDesc;
 
         markdown += `| \`${name}\` | ${finalDesc} |\n`;
       });

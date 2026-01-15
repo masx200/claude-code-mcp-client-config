@@ -4,10 +4,7 @@
       "type": "stdio",
       "installCommand": "npm install -g chrome-devtools-mcp",
       "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
+      "args": ["-y", "chrome-devtools-mcp@latest"],
       "env": {}
     }
   }

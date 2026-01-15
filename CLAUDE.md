@@ -87,11 +87,13 @@ node merge-mcp-config.js '{"mcpServers": {"server1": {...}}}'
 ### 快速开始
 
 1. **安装单个服务器**：
+
    ```bash
    node merge-mcp-config.js firecrawl-mcp-server.json
    ```
 
 2. **安装多个服务器**：
+
    ```bash
    node merge-mcp-config.js firecrawl-mcp-server.json github-mcp-server.json webdav-mcp-server.json
    ```

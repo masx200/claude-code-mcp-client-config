@@ -289,11 +289,13 @@ node merge-mcp-config.js config.json --dry-run
 ### 调试技巧
 
 1. **使用详细输出**:
+
    ```bash
    node merge-mcp-config.js config.json --verbose
    ```
 
 2. **检查单个服务器**:
+
    ```bash
    node mcp-tools-list-simple.js | grep -A 10 "server-name"
    ```

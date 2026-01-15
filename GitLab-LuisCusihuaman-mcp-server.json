@@ -6,9 +6,7 @@
       "env": {
         "GITLAB_TOKEN": "<gitlab api key>"
       },
-      "args": [
-        "stdio"
-      ],
+      "args": ["stdio"],
       "command": "C:/Users/Administrator/go/bin/gitlab-mcp-server.exe"
     }
   }

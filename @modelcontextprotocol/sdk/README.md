@@ -129,12 +129,14 @@ app.post("/mcp", async (req, res) => {
 });
 
 const port = parseInt(process.env.PORT || "3000");
-app.listen(port, () => {
-  console.log(`Demo MCP Server running on http://localhost:${port}/mcp`);
-}).on("error", (error) => {
-  console.error("Server error:", error);
-  process.exit(1);
-});
+app
+  .listen(port, () => {
+    console.log(`Demo MCP Server running on http://localhost:${port}/mcp`);
+  })
+  .on("error", (error) => {
+    console.error("Server error:", error);
+    process.exit(1);
+  });
 ```
 
 Install the deps with `npm install @modelcontextprotocol/sdk express zod@3`, and
@@ -334,7 +336,7 @@ server.registerResource(
       repo: (value, context) => {
         if (context?.arguments?.["owner"] === "org1") {
           return ["project1", "project2", "project3"].filter((r) =>
-            r.startsWith(value)
+            r.startsWith(value),
           );
         }
         return ["default-repo"].filter((r) => r.startsWith(value));
@@ -396,7 +398,7 @@ server.registerPrompt(
       department: completable(z.string(), (value) => {
         // Department suggestions
         return ["engineering", "sales", "marketing", "support"].filter((d) =>
-          d.startsWith(value)
+          d.startsWith(value),
         );
       }),
       name: completable(z.string(), (value, context) => {
@@ -551,9 +553,10 @@ mcpServer.registerTool(
       maxTokens: 500,
     });
 
-    const summary = response.content.type === "text"
-      ? response.content.text
-      : "Unable to generate summary";
+    const summary =
+      response.content.type === "text"
+        ? response.content.text
+        : "Unable to generate summary";
     const output = { summary };
     return {
       content: [{ type: "text", text: JSON.stringify(output) }],
@@ -580,12 +583,14 @@ app.post("/mcp", async (req, res) => {
 });
 
 const port = parseInt(process.env.PORT || "3000");
-app.listen(port, () => {
-  console.log(`MCP Server running on http://localhost:${port}/mcp`);
-}).on("error", (error) => {
-  console.error("Server error:", error);
-  process.exit(1);
-});
+app
+  .listen(port, () => {
+    console.log(`MCP Server running on http://localhost:${port}/mcp`);
+  })
+  .on("error", (error) => {
+    console.error("Server error:", error);
+    process.exit(1);
+  });
 ```
 
 ## Running Your Server
@@ -668,12 +673,14 @@ app.post("/mcp", async (req, res) => {
 });
 
 const port = parseInt(process.env.PORT || "3000");
-app.listen(port, () => {
-  console.log(`MCP Server running on http://localhost:${port}/mcp`);
-}).on("error", (error) => {
-  console.error("Server error:", error);
-  process.exit(1);
-});
+app
+  .listen(port, () => {
+    console.log(`MCP Server running on http://localhost:${port}/mcp`);
+  })
+  .on("error", (error) => {
+    console.error("Server error:", error);
+    process.exit(1);
+  });
 ```
 
 #### With Session Management
@@ -1289,8 +1296,7 @@ server.registerTool(
     if (!available) {
       // Ask user if they want to try alternative dates
       const result = await server.server.elicitInput({
-        message:
-          `No tables available at ${restaurant} on ${date}. Would you like to check alternative dates?`,
+        message: `No tables available at ${restaurant} on ${date}. Would you like to check alternative dates?`,
         requestedSchema: {
           type: "object",
           properties: {
