@@ -435,7 +435,14 @@ async function main() {
     // 生成报告
     log("\n📝 生成报告...", "cyan");
     const markdown = generateReport(results, configPath);
-    const reportPath = "mcp-tools-report-sdk-"+(new Date().toLocaleString().replaceAll(':',"-").replaceAll('+',"-").replaceAll('/',"-"))+".md";
+    const reportPath =
+      "mcp-tools-report-sdk-" +
+      new Date()
+        .toLocaleString()
+        .replaceAll(":", "-")
+        .replaceAll("+", "-")
+        .replaceAll("/", "-") +
+      ".md";
 
     fs.writeFileSync(reportPath, markdown, "utf8");
     logSuccess(`报告已生成: ${reportPath}`);
